@@ -1,0 +1,108 @@
+---
+title: "661hw1_Leibert"
+output: pdf_document
+geometry: margin=.5in
+---
+
+
+
+\begin{enumerate}
+\item {\bf Exercise 1: Comparison of drugs}
+
+In a crossover trial comparing a new drug to a standard, $\pi$ denotes the probability that the new one is judged better. It is desired to estimate $\pi$ and test $H_0: \pi=0.50$ agains $H_1: \pi \ne 0.50$. The new drug is found to be better in 15 out of 20 independent observations.
+\end{enumerate}
+
+\ 
+
+
+
+\begin{itemize}
+\item[ ]\begin{itemize}
+\item[(a)] Find and sketch the log-likelihood function.  Is it close to the quadratic shape that large-sample normal approximations utilize?
+\end{itemize}
+\end{itemize}
+
+\ 
+
+```{r,results="asis"}
+l = function(x){15*log(x)+5*log(1-x)}
+curve(l, from=0, to=1,  xlab="x", ylab="y")
+```
+
+ 
+
+\begin{itemize}
+\item[ ] \begin{itemize}
+\item[ ] \begin{itemize}
+\item[ ] It is close to the quadratic shape that large-sample normal approximations utilize.
+\end{itemize} 
+\end{itemize}
+\end{itemize}
+
+\ 
+
+\begin{itemize}
+\item[ ] \begin{itemize}
+\item[ ] \begin{itemize}
+\item[(b)] Give the ML estimate of $\pi$.
+
+\begin{align*}
+f(15|\pi) &= \binom{20}{15} \ \pi^{15} \  \left(1-\pi\right)^{5} \\
+\mathcal{L}(\pi|15) &= \binom{20}{15} \ \pi^{15} \ \left(1-\pi\right)^{5} \\
+& \propto  \pi^{15} \ \left(1-\pi\right)^{5} \\
+\ell(\pi|15) &= 15\log\pi \ + 5\log \pi \\
+\end{align*}
+
+\begin{align*}
+\cfrac{\partial \ell }{\partial \pi} &= \cfrac{15}{\pi} +  \cfrac{5}{\pi-1} \\
+& \\
+0 &= \cfrac{15}{\pi} +  \cfrac{5}{\pi-1} \\
+- \cfrac{5}{\pi-1} &=\cfrac{15}{\pi} \\
+\cfrac{\pi-1}{\pi} &= -\cfrac{1}{3} \\
+1- \cfrac{1}{\pi} &= -\cfrac{1}{3} \\
+- \cfrac{1}{\pi}  &= -\cfrac{4}{3} \\ 
+\hat{\pi}_{MLE} &= \cfrac{3}{4}
+\end{align*}
+
+\item[(c)]  Wald test
+
+\begin{itemize}
+\item Conduct a Wald test, report the $p$-value and state your conclusion.  
+
+\ 
+
+\hspace{1 in} Expected Information: 
+ \begin{align*}
+I^{-1}(\pi) &= \left( -E \left[ \cfrac{\partial^2 \ell }{\partial \pi^2 }  \right]  \right)^{-1} \\
+&=\left( -E \left[ -\cfrac{15 }{\pi^2} -\cfrac{5 }{(\pi-1)^2} \right]_{\pi = \hat{\pi}} \ \right)^{-1} \\
+&=\left( -E \left[ -\cfrac{15 }{.75^2} -\cfrac{5 }{(.75-1)^2} \right]  \ \right)^{-1} \\
+&=  \cfrac{3}{320}  
+\end{align*}
+
+\ 
+
+\hspace{1 in} Wald test: 
+ \begin{align*}
+ H_0: \pi = 0.5 & \\
+ & \\
+ W = \cfrac{ \left( \hat{\pi}- \pi_0 \right)^2 }{Var\left(\hat{\pi}\right)} &=
+ \cfrac{ \left(\frac{3}{4} - \frac{1}{2} \right)^2  }{\frac{3}{320}} = \cfrac{20}{3} \sim \chi_1^2
+\end{align*}
+
+
+\end{itemize}
+
+
+
+
+
+
+
+
+
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+
+
