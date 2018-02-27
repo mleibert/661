@@ -1,17 +1,16 @@
-setwd("G:\\661")
+setwd("G:\\math\\661")
 
-library(RCurl)
-crabs<-getURL(
-	"https://raw.githubusercontent.com/mleibert/661/master/Crabs.txt")
-crabs<- read.table(text = crabs,header=T)
+ 
+ 
+crabs<- read.table("crabs.txt",header=T)
 
 #CRABS<-crabs;CRABS$y<-ifelse(CRABS$satellite > 0, 1,0)
-CRABS$color<-as.factor(CRABS$color)
+#CRABS$color<-as.factor(CRABS$color)
 
 crabs<-CRABS
 
 crabs$y<-ifelse(crabs$satellite > 0, 1,0)
-crabs<-CRABS[,c(2,4,ncol(crabs))]
+crabs<-crabs[,c(2,4,ncol(crabs))]
 
 
 head(crabs);head(CRABS);str(CRABS);str(crabs)

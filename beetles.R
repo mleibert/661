@@ -1,3 +1,7 @@
+rm(list = ls())
+setwd("G:\\math\\661")
+
+
 beetles<-read.table("G:\\math\\661\\beetles.txt",header=T)
 beetles$alive<-beetles$n - beetles$dead
 
@@ -33,27 +37,47 @@ glm( y~weight+color+weight*color,data=crabs ,family="binomial" )
 
 summary(crabI.glm) 
 #AIC: 
-summary(crabI.glm)[[4]]
 #residual deviance
 summary(crabI.glm)[[5]]	
 
 
-#w/o interaction
-sum(resid(crab.glm,type="pearson")^2)
+summary(crab.glm)
+summary(crabI.glm)
 
-1-pchisq(summary(crab.glm)[[5]],168	)
-1-pchisq(sum(resid(crab.glm,type="pearson")^2),168	)
+#nested - full(mixed effect)
+1-pchisq(188.54-181.66 , 168-165)
+#pretty low p-value: H_0: smaller model fits well
+#.05 threshold too low, and the .07 does not show that the nested
+#model does better than the mixed effects
+summary(crab.glm)[[4]]
+summary(crabI.glm)[[4]]
 
 
-#w/o interaction
-sum(resid(crabI.glm,type="pearson")^2)
 
-1-pchisq(summary(crabI.glm)[[5]],168	)
-1-pchisq(sum(resid(crabI.glm,type="pearson")^2),168	)
 
-#homer lemshow
-require("ResourceSelection")
 
-hoslem.test(crab.glm$y,fitted(crab.glm))
-hoslem.test(crabI.glm$y,fitted(crabI.glm))
+######### compare nested models
+
+delinquent = data.frame(ses = as.factor(rep(c("low", "medium", "high"),
+	rep(2,3))),boy = as.factor(rep(c("scout", "nonscout"),3)),
+	y = c(11, 42, 14, 20, 8, 2), n = c(54, 211, 118, 152, 204, 61))
+
+# R uses the first levels as reference.
+# To use boy="non-scouts" and ses="low" as reference
+
+delinquent$boy = relevel(delinquent$boy, ref="nonscout")
+delinquent$ses = relevel(delinquent$ses, ref="low")
+fit.null = glm(y/n ~ 1, weights=n, family=binomial, data=delinquent)
+fit.boy = glm(y/n ~ boy, weights=n, family=binomial, data=delinquent)
+fit.ses = glm(y/n ~ ses, weights=n, family=binomial, data=delinquent)
+fit.boyses = glm(y/n ~ ses+boy, weights=n, family=binomial, data=delinquent)
+fit.saturate = glm(y/n ~ boy*ses, weights=n, family=binomial, data=delinquent)
+
+summary( fit.saturate  )
+summary(fit.boyses )
+summary(fit.ses )
+
+
+
+
 
