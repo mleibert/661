@@ -68,13 +68,14 @@ BIC(crabI.glm)
 #https://www2.stat.duke.edu/courses/Spring13/sta102.001/Lec/Lec20.pdf
 
 donner<-DONNER<-read.csv("G:\\math\\661\\donner.csv",header=T)
+donner<-DONNER<-read.table("G:\\math\\661\\donner.txt",header=T)
 
 head(donner)
 donner<-donner[,c(2,3,4)]
 str(donner)
 donner$Male.Gender<-as.factor(donner$Male.Gender)
 
-donner.glm<-glm(Survived~Age*Male.Gender,data=donner,family=binomial )
+donner.glm<-glm(Survived~Age+Male.Gender,data=donner,family=binomial )
 summary(donner.glm)
 
 plot(	donner[ which(donner[,2] > 15 & donner[,2] < 45
@@ -84,12 +85,27 @@ plot(	donner[ which(donner[,1] == 0),2],donner[ which(donner[,1] == 0),3],
 	col=ifelse(donner[,2] > 15 & donner[,2] < 45 , "red", "black"),
 	pch=16 )
 
+eta<- sum( coef(donner.glm)*c(1,1,0))
+eta<- sum( coef(donner.glm)*c(1,0,1))
 
-eta<-1.814079 + -1.19255*(1) +  -0.03503*(0)
+anova(donner.glm, test= "LRT")
 
 exp(eta)/(1+exp(eta))
 
+#intepret b1, b2
+#Controlling for gender, for every one year increase in age, the log odds
+#of surviving decreases by -0.03502802
 
+exp(-0.03502802)
+
+#Controlling for age, males have a 1.19255 lower log odds than women for
+#surviving
+
+
+exp(1.19255)
+
+#these data are not grouped so the deviance or Pearson goodness-of-fit
+#tests are not appropriate.
 
 
 
