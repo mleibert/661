@@ -1,0 +1,60 @@
+---
+header-includes:
+  \AtBeginDocument{\let\maketitle\relax}
+geometry: margin=.75in
+output: pdf_document
+---
+
+
+```{r,echo=F}
+rm(list = ls())
+setwd("G:\\math\\661")
+donner<-read.csv("Donner.csv",header=T)
+donner<-donner[,c(2,3,4)]
+donner$Male.Gender<-as.factor(donner$Male.Gender)
+donner.glm<-glm(Survived~.,data=donner,family=binomial )
+
+```
+
+\begin{itemize}
+\item[ ] 
+\item[ ]  \begin{itemize}
+\item[(e)]  Assess the model goodness-of-fit. 
+
+\ 
+
+\begin{itemize}
+\item[] We conduct the Hosmer-Lemeshow goodness of fit test to assess the model goodness-of-fit. We test $H_0$: the current model fits well.
+
+
+\end{itemize}
+
+
+\end{itemize}
+\end{itemize}
+
+
+ \ 
+ 
+```{r}
+library(ResourceSelection)
+res<-hoslem.test(donner.glm$y,fitted(donner.glm))
+res
+cbind(res$observed,res$expected)
+```
+
+\ 
+
+\begin{itemize}
+\item[ ]   
+\ 
+
+\begin{itemize}
+\item[] This $p$-value of $0.1134$ is non-significant at the $0.05$ level so there should be no evidence that the model is fitting poorly. However, because the $p$-value is near the threshold there may be evidence that the model is not a great fit. With caution, we declare the model does appear adequate for these data.
+
+
+
+\end{itemize}
+
+ \end{itemize}
+
