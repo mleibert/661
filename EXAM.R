@@ -1,14 +1,21 @@
 rm(list = ls())
 setwd("G:\\math\\661")
+
+ 
+2 *( -114.14- -114.41 )
+
+1-pchisq(2 *( -114.14- -114.41 ) , 2  )
+
+
+
 dat<-read.table("Bank_loan.txt",header=T)
 library(ggplot2)
 library(reshape2)
 
- 
-#ggplot(data = melt(dat[!(is.na(dat[,ncol(dat)])),]), 
-#		mapping = aes(x = value)) + 
-#	geom_histogram( bins = 10, color="darkblue", fill="lightblue") + 
-#	facet_wrap(~variable, scales = 'free_x')
+ ggplot(data = melt(dat[!(is.na(dat[,ncol(dat)])),]), 
+ 		mapping = aes(x = value)) + 
+ 	geom_histogram( bins = 10, color="darkblue", fill="lightblue") + 
+ 	facet_wrap(~variable, scales = 'free_x')
 
 dat$ed<-as.factor(dat$ed)
 summary(dat)
@@ -23,22 +30,21 @@ dat<-dat[!(is.na(dat[,ncol(dat)])),]
 nrow(dat);nrow(prosp)
 
 tail(dat)
- 
+  dat$default <- as.factor(dat$default )
  
 # 2a
 fit.null<-glm(default~1,family=binomial, data=dat)
-fit.sat<-glm(default~.*.,family=binomial, data=dat)	
-
+fit.sat<-glm(default~. ,family=binomial, data=dat)	
 summary(fit.sat)
 
   
 
 
 step(fit.null, scope=list(lower=fit.null, 
-	upper=fit.sat), direction="both" )
+	upper=fit.sat), direction="both" ,trace=0 )
 
-#step(fit.sat, scope=list(lower=fit.null, 
-#	upper=fit.sat), direction="both" )
+step(fit.sat, scope=list(lower=fit.null, 
+	upper=fit.sat), direction="both" ,trace=0)
 
 
 stepFit<-glm(formula = default ~ debtinc + employ + creddebt + address + 
@@ -56,7 +62,7 @@ cbind(res$observed,res$expected)
 ### LASSO (Indians data set)
 
 library("mlbench")
-#library(glmnet)
+library(glmnet)
 data("PimaIndiansDiabetes")
 
 X = model.matrix(diabetes ~ .*., data=PimaIndiansDiabetes)
@@ -73,7 +79,9 @@ tail(PimaIndiansDiabetes)
 ### Bank data set
 
 tail(dat)
-X = model.matrix(default ~ .*., data=dat)
+X = model.matrix(default ~ . , data=dat)
+ 
+
 Y = as.numeric(dat$default  )
 
 cvfit = cv.glmnet(x=X[,-1], y=Y, family="binomial", type.measure="class")
@@ -85,9 +93,10 @@ coef(cvfit, s=lambda_1se)
 lassoFit<-glm(formula = default ~ debtinc + employ + creddebt + address ,
 	family = binomial, data = dat)
 
-lassoiFit<-glm(  default ~ employ +  address + debtinc + creddebt +
-	age*debtinc + debtinc:creddebt ,
-	 family = binomial, data = dat)
+#worse AIC & BIC see below
+#lassoiFit<-glm(  default ~ employ +  address + debtinc + creddebt +
+#	age*debtinc + debtinc:creddebt ,
+#	 family = binomial, data = dat)
 
 
 
@@ -101,6 +110,7 @@ BIC(lassoFit)
 #H0 : model with 4 covariates fits as well as model with 5 covariates 
 deviance(lassoFit)-deviance(stepFit)
 
+################ 2b
 1-pchisq(deviance(lassoFit)-deviance(stepFit), 1)
 
 #We fail to reject H0 at alpha = 0:05, 
@@ -108,6 +118,77 @@ deviance(lassoFit)-deviance(stepFit)
 #better fit compared to the model with 4 covariates.
 
  
+lassoFit
 
+#2ci
+
+#because this is ungrouped data we use the deviance residuals
+h<-hatvalues(lassoFit)
+
+#d<-resid(lassoFit,type="deviance")
+#d.std<-d/sqrt(1-h)
+
+e<-resid(lassoFit,type="pearson")
+e.std<-e/sqrt(1-h)
+hist(e.std)
+
+dat$pii<-predict(lassoFit,   type="response")
 
  
+lassoFit$linear.predictors
+lassoFit$fitted.values
+
+
+as.numeric( which( abs(e.std) > 2 ) )
+
+
+glm(formula = default ~ debtinc + employ + creddebt + address ,
+	family = binomial, data = dat)
+
+data.frame( names(dat) , 1:ncol(dat) )
+
+dat[as.numeric( which( abs(e.std) > 2 ) ), c(6,3,7,4,9,10) ]
+
+table(dat[as.numeric( which( dat$pii > .7 ) ), c(6,3,7,4,9,10) ]$default)
+table(dat[as.numeric( which( dat$pii < .08 ) ), c(6,3,7,4,9,10) ]$default)
+
+dat[which(dat$default == 0),]
+
+##2cii
+
+nrow(   dat[which(dat$pii > .3),]   ) / 700
+
+table( dat[ ( which( dat$pii < .3) ),]$default )
+table( dat[ ( which( dat$pii > .3) ),]$default )
+
+defaulters<-dat[which(dat$default == 1),]
+nrow( defaulters[which(defaulters$pii < .3) ,] ) / nrow(defaulters)
+
+defaulters<-dat[which(dat$default == 0),]
+nrow( defaulters[which(defaulters$pii > .3) ,] ) / nrow(defaulters)
+
+##2ciii
+install.packages("ROCR")
+library(ROCR)
+
+
+pred = prediction(fitted(lassoFit) ,   dat$default  )
+perf = performance(pred, "tpr", "fpr")
+plot(perf)
+abline(a=0, b=1, lty=2)
+
+
+
+#########
+
+head(prosp)
+
+
+
+prosp$pii<-predict(lassoFit,  prosp, type="response")
+prosp
+
+hist(prosp$pii)
+boxplot(prosp$pii)
+
+nrow( prosp[which(prosp$pii > .3),]  )  / nrow(prosp)
