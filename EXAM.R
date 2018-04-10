@@ -17,6 +17,8 @@ library(reshape2)
  	geom_histogram( bins = 10, color="darkblue", fill="lightblue") + 
  	facet_wrap(~variable, scales = 'free_x')
 
+hist(dat$age)
+
 dat$ed<-as.factor(dat$ed)
 summary(dat)
 
@@ -41,10 +43,14 @@ summary(fit.sat)
 
 
 step(fit.null, scope=list(lower=fit.null, 
+	upper=fit.sat), direction="forward" ,trace=0 )
+step(fit.null, scope=list(lower=fit.null, 
 	upper=fit.sat), direction="both" ,trace=0 )
 
-step(fit.sat, scope=list(lower=fit.null, 
-	upper=fit.sat), direction="both" ,trace=0)
+step(fit.sat, scope=list(lower=fit.sat, 
+	upper=fit.null), direction="backward" ,trace=0)
+step(fit.sat, scope=list(lower=fit.sat, 
+	upper=fit.null), direction="both" ,trace=0)
 
 
 stepFit<-glm(formula = default ~ debtinc + employ + creddebt + address + 
@@ -177,18 +183,27 @@ perf = performance(pred, "tpr", "fpr")
 plot(perf)
 abline(a=0, b=1, lty=2)
 
-
+auc.perf = performance(pred, "auc")
+auc.perf@y.values
 
 #########
 
 head(prosp)
 
+blergs<-prosp[,c(6,3,7,4)]
 
-
+blergs$pii<-predict(lassoFit,  blergs, type="response")
 prosp$pii<-predict(lassoFit,  prosp, type="response")
-prosp
+blergs$pii-prosp$pii
 
 hist(prosp$pii)
 boxplot(prosp$pii)
 
 nrow( prosp[which(prosp$pii > .3),]  )  / nrow(prosp)
+
+
+
+
+
+
+exp (-.82 + 1.96 * .41)
