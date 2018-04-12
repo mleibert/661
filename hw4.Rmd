@@ -1,0 +1,253 @@
+---
+output: pdf_document
+header-includes:
+   - \usepackage{bbm}
+   - \usepackage{amsmath}
+   - \usepackage{graphicx}
+   - \usepackage{pdfpages}
+   - \usepackage{setspace}
+   - \usepackage{mathtools}
+   - \usepackage{bm}
+   - \usepackage{makecell}
+   - \usepackage{cancel}
+   - \usepackage{fancyhdr}
+   - \usepackage[utf8]{inputenc}
+   - \usepackage{amssymb}
+   - \usepackage{parallel,enumitem}
+   - \usepackage{pdfpages}
+   - \usepackage{caption}
+   - \usepackage{listings}
+   - \usepackage{subcaption}
+geometry: margin=1in
+---
+
+Michael Leibert
+
+Math 661 
+
+Homework 4
+
+
+
+ \begin{enumerate}
+
+\item {\bf Exercise 1 -- Agresti \# 6.20}
+
+The following R output shows output from fitting a cumulative logit model to data from the US 2008 General Social Survey. For subject $i$, let
+\begin{itemize}
+\item $y_i=$ belief in existence of heaven ($1=$ yes, $2=$ unsure, $3=$ no),
+\item $x_{i1}=$ gender ($1=$ female, $0=$ male) and 
+\item $x_{i2}=$ race ($1=$ black, $0=$ white). 
+\end{itemize}
+
+\begin{verbatim}
+> cbind(race, gender, y1, y2, y3)
+     race gender  y1  y2 y3
+[1,]    1      1  88  16  2
+[2,]    1      0  54   7  5
+[3,]    0      1 397 141 24
+[4,]    0      0 235 189 39
+
+> summary(vglm(cbind(y1,y2,y3) ~ gender+race, family=cumulative(parallel=T)))
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept):1  0.07631    0.08963   0.851    0.395    
+(Intercept):2  2.32238    0.13522  17.175  < 2e-16 ***
+gender         0.76956    0.12253   6.281 3.37e-10 ***
+race           1.01645    0.21059   4.827 1.39e-06 ***
+---
+Residual deviance: 9.2542 on 4 degrees of freedom
+Log-likelihood: -23.3814 on 4 degrees of freedom
+\end{verbatim}
+
+\ 
+
+\begin{itemize}
+\item[(a)] State the model fitted here and interpret the race and gender effects. 
+
+\ 
+
+\begin{itemize}
+\item[ ] Belief in heaven is ordinal, with categories (1=yes, 2 = unsure, 3 = no). The survey related $y=$belief in heaven to two explanatory variables, gender $x_{i1}$ and race $x_{i1}$. The cumulative logit model of the proportional odds form with main effects has ML fit:
+
+\begin{equation*}
+    \text{logit} \big[ \hat{P} \left( y_i \leq j \right) \big] = \hat{\alpha}_j  + 0.76956 x_{i1} + 1.01645 x_{i2}
+\end{equation*}
+
+\ 
+
+We interpret the race and gender effects.
+
+\
+
+$\hat{\alpha}_1 = 0.07631$: Is the estimated log odds of falling into belief in heaven yes versus all other categories for white male.
+
+\ 
+
+$\hat{\alpha}_2 = 2.32238$: Is the estimated log odds of falling into belief in heaven: yes or belief in heaven: unsure for white male.
+
+\ 
+
+$\hat{\beta}_1 = -1.0165$. For a one unit increase in $x_{i1}$, controlling for $x_{i2}$, the cumulative probability of falling into group $j$ or lower is higher. That is controlling for gender, blacks are more likely than whites to fall into the categories: belief in heaven: yes or belief in heaven: unsure.
+
+\ 
+
+$\hat{\beta}_2 = $. For a one unit increase in $x_{i2}$, controlling for $x_{i1}$, the cumulative probability of falling into group $j$ or lower is higher. That is controlling for race, females are more likely than males to fall into the categories: belief in heaven: yes or belief in heaven: unsure. 
+
+\end{itemize}
+
+\
+
+
+\item[(b)] Test goodness-of-fit and construct confidence intervals for the effects.
+
+\ 
+
+\begin{itemize}
+\item[ ]
+
+1-pchisq(9.254,4)
+
+\
+
+The p-value, $P \left( \chi^2_4 \right) =0.05505495$, is $>.05$, so there's no evidence that the model does not fit the data well. However, the model has a relatively low goodness-of-fit $p$-value = $0.055$, which makes its fit to the data questionable.
+
+\ 
+
+A 95\% confidence interval given for $\beta_1$ is given by:
+
+\begin{equation*}
+   \hat{\beta_1} \pm z_{0.025} \ SE\left( \hat{\beta_1} \right) = 0.76956 \pm 1.96 \cdot 0.12253 = \big( 0.5294012,1.009719 \big).
+\end{equation*}
+
+\ 
+
+A 95\% confidence interval given for $\beta_2$ is given by:
+
+\begin{equation*}
+   \hat{\beta_2} \pm z_{0.025} \ SE\left( \hat{\beta_2} \right) = 1.01645  \pm 1.96 \cdot 0.21059= \big( 0.6036936,1.429206 \big).
+\end{equation*}
+
+\ 
+
+INTERPRET???
+
+
+\end{itemize}
+\end{itemize}
+
+\newpage
+
+\item {\bf Exercise 2 -- Agresti \# 6.21}
+
+Refer to the previous exercise. Consider the model
+\[ \log \frac{\pi_{ij}}{\pi_{i3}} = \alpha_j + \beta_j^G x_{i1} + \beta_j^R x_{i2}, \qquad j=1,2. \]
+\begin{itemize}
+ 
+
+
+\item[(a)] Fit the model and report prediction equations for 
+\[ \log \frac{\pi_{i1}}{\pi_{i3}}, ~ \log \frac{\pi_{i2}}{\pi_{i3}}, ~ \log \frac{\pi_{i1}}{\pi_{i2}}. \]
+
+
+
+
+\begin{itemize} \item[]
+ 
+
+ 
+
+\hspace{-.75 cm}\begin{minipage}[t]{65 mm}
+ \begin{align*}
+    \log \cfrac{\pi_{i1}}{\pi_{i3}} &= \log \cfrac{  \cfrac{ \exp\left( {\bm x}_i^T {\bm \beta}_1 \right)  }{ \ \cancel{
+     1+ \sum\limits_{h=1}^{c-1} \exp\left({\bm x}_i^T {\bm \beta}_h \right) } \ } }{ \cfrac{ 1 }{ \ \cancel{
+     1+ \sum\limits_{h=1}^{c-1} \exp\left({\bm x}_i^T {\bm \beta}_h \right)} \ } } \\
+     &=   {\bm x}_i^T {\bm \beta}_1 \\
+     &=  1.7943 + 1.0339 x_{i1} + 0.6727 x_{i2}
+\end{align*}
+\end{minipage}
+\begin{minipage}[t]{95mm}
+\begin{align*}
+    \log \cfrac{\pi_{i2}}{\pi_{i3}} &= \log \cfrac{  \cfrac{ \exp\left( {\bm x}_i^T {\bm \beta}_2 \right)  }{ \ \cancel{
+     1+ \sum\limits_{h=1}^{c-1} \exp\left({\bm x}_i^T {\bm \beta}_h \right) } \ } }{ \cfrac{ 1 }{ \ \cancel{
+     1+ \sum\limits_{h=1}^{c-1} \exp\left({\bm x}_i^T {\bm \beta}_h \right)} \ } } \\
+     &=   {\bm x}_i^T {\bm \beta}_2 \\
+     &=  1.5309 + 0.3087 x_{i1} -0.4757 x_{i2}
+\end{align*}
+\end{minipage}
+
+\ 
+
+\
+
+\begin{align*}
+    \log \cfrac{\pi_{i1}}{\pi_{i2}} &=  \log \left(  \cfrac{ \exp\left( {\bm x}_i^T {\bm \beta}_1 \right)  }{ \ \cancel{
+     1+ \sum\limits_{h=1}^{c-1} \exp\left({\bm x}_i^T {\bm \beta}_h      \right)  \     }}
+     \cfrac{ \ \cancel{  1+ \sum\limits_{h=1}^{c-1} \exp\left({\bm x}_i^T {\bm \beta}_h      \right)      }  \ }{ 
+      \exp\left( {\bm x}_i^T {\bm \beta}_2 \right) }    \right) \\
+    &= \log\Big(  \exp\left[ {\bm x}_i^T {\bm \beta}_1 \right] \Big) -  
+            \log\Big(  \exp\left[ {\bm x}_i^T {\bm \beta}_2 \right] \Big) \\ 
+    &=          {\bm x}_i^T {\bm \beta}_1 -  {\bm x}_i^T {\bm \beta}_2 \\
+    &= \left(1.7943 + 1.5309  \right) +  \left(1.0339+  0.3087 \right) x_{i1}  + \left(0.6727 -0.4757\right) x_{i2} \\
+    &= 3.3252 + 1.3426x_{i1} + 0.197x_{i2}
+\end{align*}
+
+\end{itemize}
+
+
+\
+
+
+\item[(b)] Using the ``yes'' and ``no'' response categories, interpret the conditional gender effect using a 95\% confidence interval for the odds ratio.
+
+
+\
+
+
+\begin{itemize}
+\item[] A 95\% confidence interval given for the log odds of $\beta_1^G$, the conditional gender effect, is given by:
+
+\begin{equation*}
+   \exp\bigg( \hat{\beta}_1^G \pm z_{0.025} \ SE\left( \hat{\beta}_1^G \right) \bigg) = \Big( \exp\left(0.526848\right),\exp\left(1.540952\right) \Big) = \big( 1.693586,  4.669033 \big).
+\end{equation*}
+
+\ 
+
+
+The odds of belief of an afterlife for females is $\exp(1.0339)=2.8$ times higher than for males, controlling for race. The 95\% confidence interval does not contain 1, so there is evidence of the conditional gender effect, controlling for race.
+
+
+\end{itemize}
+
+
+\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\item[(c)] Conduct a likelihood ratio test of the hypothesis that opinion is independent of gender, given race. Interpret.
+\end{itemize}
+
+
+\
+
+
+\begin{itemize}
+\item[] \hfil $H_0$: opinion is independent of gender, given race
+
+
+
+\end{itemize}
+
+
+\end{enumerate}
+ 

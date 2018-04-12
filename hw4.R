@@ -3,6 +3,28 @@ setwd("G:\\math\\661")
 options(scipen=999)
 require("VGAM")
 library(MASS)
+library(reshape2)
+
+###
+mat<-matrix(NA,4,5)
+mat[1,]<-c(1,1,88,16,2)
+mat[2,]<-c(1, 0, 54, 7 ,5)
+mat[3,]<-c(0 ,1, 397 ,141 ,24)
+mat[4,]<-c(0 ,0 ,235, 189, 39)
+nat
+
+mat<-as.data.frame(mat)
+names(mat)<-c("race","gender","y1","y2","y3")
+
+nat<-matrix(NA,4,5)
+nat[1,]<-c(1,1,64 ,9 ,15)
+nat[2,]<-c(1, 0, 25 ,5 ,13)
+nat[3,]<-c(0 ,1, 371, 49 ,74)
+nat[4,]<-c(0 ,0 ,250 ,45, 71)
+nat
+
+
+###
 
 
 cheese<-read.table("cheese.txt",header=T)
@@ -37,15 +59,6 @@ predict(mental.fit,newdata=data.frame(men), type="response")
 
 ####### 
 
-mat<-matrix(NA,4,5)
-mat[1,]<-c(1,1,88,16,2)
-mat[2,]<-c(1, 0, 54, 7 ,5)
-mat[3,]<-c(0 ,1, 397 ,141 ,24)
-mat[4,]<-c(0 ,0 ,235, 189, 39)
-mat
-
-mat<-as.data.frame(mat)
-names(mat)<-c("race","gender","y1","y2","y3")
 
 heaven.fit = vglm(cbind(y1,y2,y3)~gender+race, 
 	family=cumulative(parallel=T), data=mat)
@@ -87,21 +100,39 @@ exp(A2-0) / (1+exp(A2-0))
 cumsum(predheaven[1,])
 apply(predheaven ,1 , cumsum)
 
+1-pchisq(9.254,4)
+#The p-value is is $>.05$, so there’s no evidence that the model does not 
+#fit the data well.  However, the model has a relatively low goodness-of-fit 
+#p-value = 0.055, which makes its fit to the data questionable.
+
+#95% CI
+
+confint(heaven.fit)
+confint(heaven.fitt)
+summary(heaven.fit)
+summary(heaven.fitt)
+
+
+0.76956  -1.96*  0.12253
+0.76956  +1.96*  0.12253
 
 
 
 
+2.0361+1.96*  0.6911
 
 
+##
+
+mat
 
 
+heaven.fit = vglm(cbind(y1,y2,y3)~gender+race, family=multinomial, data=mat)
 
+summary(heaven.fit )
 
-
-
-
-
-
-
+sum(coef(heaven.fit )[1:2])	#intercept
+sum(coef(heaven.fit )[3:4]) 	#x_i1
+sum(coef(heaven.fit )[5:6])	#x_i2
 
 
