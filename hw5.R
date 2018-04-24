@@ -34,9 +34,14 @@ str(smokers)
 smokers.fit<- glm(Deaths ~ age+smoker, offset = log(PersonYears),
 	family=poisson, data=smokers) 
  
-plot( (smokers.fit$linear.predictors[1:5])  ,  ylim=c(1.5,6) )
+plot( ( smokers.fit$linear.predictors[1:5] )  ,  ylim=c(1.5,6) )
 points((smokers.fit$linear.predictors[6:10]))
  
+plot( (smokers.fit$fitted.values )   )
+
+ 
+
+
 summary(smokers.fit)
 
 1-pchisq(12.13, 7)
@@ -50,6 +55,8 @@ smokersQI.fit<- glm(Deaths ~ ageQI*smoker, offset = log(PersonYears),
 summary(smokersQI.fit)
  1-pchisq(59.9 , 6)
 
+plot( ( smokersQI.fit$linear.predictors[1:5] )  ,  ylim=c(1.5,6) )
+points((smokersQI.fit$linear.predictors[6:10]))
 
 
 
@@ -74,13 +81,7 @@ n = by(dat$counts, dat$gender, sum)
 dat
 
 
-data.frame(dat$response[1:19],
-	length( dat[which(dat$gender == "F" & dat$response < 19),2] )
-
-
-)
-
-
+  
 tab<-cbind(dat[which(dat$gender == "F" ),],dat[which(dat$gender == "M" ),-1])
 tab<-tab[,c(1,2,4)]
 
@@ -96,10 +97,12 @@ sum(tab[,2])
 tab$PestF<-round(dpois(tab$response ,exp(1.45936 ))*310,2)
 tab$PestM<-round(dpois(tab$response ,exp(1.45936+ 0.30850 ))*sum(tab[,3]),2)
 
-
+#2c
+library(MASS)
 nb.fit<-glm.nb(response ~ gender, weights=counts, data=dat)
 summary(nb.fit)
 summary(dat.fit)
+
 
 tab$PestF<-round(,2)
 tab$PestM<-round(dpois(tab$response ,exp(1.45936+ 0.30850 ))*sum(tab[,3]),2)
@@ -109,6 +112,11 @@ muhat = unique(nb.fit$fitted.values)
 dnbinom(tab$response,size = nb.fit$theta, mu = muhat[2]) *310
 
 
+#sample mean men
+ 
+sum( dat[which(dat[,3]=="M"),1]*dat[which(dat[,3]=="M"),2] ) / 
+sum( dat[which(dat[,3]=="M"),2] )
 
 
-
+sum(dat[which(dat[,3]=="M"),2]*(dat[which(dat[,3]=="M"),1]-5.858333)^2) / 
+sum( dat[which(dat[,3]=="M"),2] )-1

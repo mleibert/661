@@ -4,7 +4,8 @@ homicide = data.frame(response=rep(0:6,each=2), race=rep(c("black", "white"),
 homicide$race = relevel(homicide$race, ref="white")
 
 hom.pois = glm(response ~ race, family=poisson, weights=counts, data=homicide)
-
+hom.nb = glm.nb(response ~ race, weights=counts, data=homicide)
+summary(hom.nb)
 
 muhat = unique(hom.nb$fitted.values)
 n = by(homicide$counts, homicide$race, sum)
@@ -14,3 +15,6 @@ n = by(homicide$counts, homicide$race, sum)
 
 dpois(0:10,exp(-2.383 ))*1149
 
+sum(homicide[which(homicide$race == "white"),3]*
+homicide[which(homicide$race == "white"),1])/
+sum(homicide[which(homicide$race == "white"),3])
