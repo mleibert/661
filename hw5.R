@@ -58,6 +58,9 @@ summary(smokersQI.fit)
 plot( ( smokersQI.fit$linear.predictors[1:5] )  ,  ylim=c(1.5,6) )
 points((smokersQI.fit$linear.predictors[6:10]))
 
+################################################
+################################################
+################################################
 
 
 dat<-read.csv("sex.csv")
@@ -65,32 +68,22 @@ dat<-read.csv("sex.csv")
 dat<-data.frame(
 	  (rep(dat$Response,2)),
 	c(dat$Female,dat$Male),
-	as.factor(c(rep("F",nrow(dat)),rep("M",nrow(dat))))	)
+	as.factor(c(rep("0",nrow(dat)),rep("1",nrow(dat))))	)
 
 names(dat)<-c("response","counts","gender")
 str(dat)
 tail(dat)
 dat.fit<-glm(response ~ gender, family=poisson, weights=counts, data=dat) 
 summary(dat.fit)
-
-dpois(0:10,exp(1.45936 ))*310
-
-
+ 
 n = by(dat$counts, dat$gender, sum)
 
 dat
 
 
-  
-tab<-cbind(dat[which(dat$gender == "F" ),],dat[which(dat$gender == "M" ),-1])
-tab<-tab[,c(1,2,4)]
+sum( tab[,2]* tab[,1])   / ( sum(tab[,2])  )
+sum( tab[,2]*((tab[,1]- 4.183871 )^2) ) / ( sum(tab[,2]) -1)
 
-
-tab[19,2]<-sum(tab[19:nrow(tab),2])
-tab[19,3]<-sum(tab[19:nrow(tab),3])
-tab<-tab[1:19,]
-tab 
-names(tab)[2:3]<-c("Female","Male")
 
 
 sum(tab[,2])
@@ -103,6 +96,8 @@ nb.fit<-glm.nb(response ~ gender, weights=counts, data=dat)
 summary(nb.fit)
 summary(dat.fit)
 
+UGdat<-as.data.frame(lapply(dat, function(x,p) rep(x,p), dat[["counts"]]))
+hist(UGdat[,1], breaks = seq(0,60,by=1))
 
 tab$PestF<-round(,2)
 tab$PestM<-round(dpois(tab$response ,exp(1.45936+ 0.30850 ))*sum(tab[,3]),2)
@@ -110,6 +105,19 @@ tab$PestM<-round(dpois(tab$response ,exp(1.45936+ 0.30850 ))*sum(tab[,3]),2)
 
 muhat = unique(nb.fit$fitted.values)
 dnbinom(tab$response,size = nb.fit$theta, mu = muhat[2]) *310
+
+#2d
+require("pscl")
+UGdat<-as.data.frame(lapply(dat, function(x,p) rep(x,p), dat[["counts"]]))
+fit.zip = zeroinfl(response ~ gender| 1 ,data=UGdat)
+
+summary(fit.zip )
+#mixing paramter
+as.numeric( exp(coef(fit.zip)[3])/(1+exp(coef(fit.zip)[3])) )
+1-as.numeric( exp(coef(fit.zip)[3])/(1+exp(coef(fit.zip)[3])) )
+
+
+fit.zinb = zeroinfl(response ~ gender| 1 ,dist="negbin",data=UGdat)
 
 
 #sample mean men
