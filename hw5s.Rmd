@@ -103,7 +103,8 @@ cbind(head(dat) ,tail(dat))
 dat.fit<-glm(response ~ gender, family=poisson, weights=counts, data=dat) 
 summary(dat.fit)
 
- 
+
+
 tab<-cbind(dat[which(dat$gender == 0),],dat[which(dat$gender == 1 ),-1])
 tab<-tab[,c(1,2,4)];tab[19,2]<-sum(tab[19:nrow(tab),2]);
 tab[19,3]<-sum(tab[19:nrow(tab),3]);tab<-tab[1:19,]

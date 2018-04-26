@@ -1,0 +1,649 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{}
+  \pretitle{\vspace{\droptitle}}
+  \posttitle{}
+  \author{}
+  \preauthor{}\postauthor{}
+  \date{}
+  \predate{}\postdate{}
+
+
+\begin{document}
+
+\begin{itemize}
+
+\item[1.] {\bf Exercise 1 -- Agresti 7.36}
+
+Table \ref{table:exo1} is based on a study involving British doctors.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{lrrrr}
+ & \multicolumn{2}{c}{Person-Years}  &  \multicolumn{2}{c}{Coronary Deaths} \\ 
+ Age & Nonsmokers & Smokers & Nonsmokers & Smokers \\ \hline
+35 -- 44 & 18,793 & 52,407 & 2 & 32 \\
+45 -- 54 & 10,673 & 43,248 & 12 & 104 \\
+55 -- 64 & 5,710 & 28,612 & 28 & 206 \\
+65 -- 74 & 2,585 & 12,663 & 28 & 186 \\
+75 -- 84 & 1,462 & 5,317 & 31 & 102 \\ \hline
+\end{tabular}
+\caption{\bf Data on Coronary Death Rates} \label{table:exo1}
+\end{center}
+\end{table}
+
+\begin{itemize}
+\item[(a)] Fit a main effects model for the log rates using age and smoking as factors. In discussing lack-of-fit, show that this model assumes a constant ratio of nonsmokers' to smokers' coronary death rates over age, and evaluate how the sample ratio depends on age.
+
+\vspace{3 in}
+
+\item[(b)] Explain why it is sensible to add a quantitative interaction of age and smoking. For this model, show that the log ratio of coronary death rates changes linearly with age. Assign scores to age, fit the model, and interpret.
+\end{itemize}
+\end{itemize}
+
+\newpage
+
+\begin{itemize}
+     \item[2.] {\bf Exercise 2}
+     
+          
+     \begin{itemize}
+     \item[]
+     One question in the 1990 General Social Survey asked subjects how many times they had sexual intercourse in the preceding month. Table \ref{table:exo2} shows responses classified by gender.
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{crr|rrr|ccc} \hline
+Response & Male & Female & Response & Male & Female & Response & Male & Female \\ \hline
+0 & 65 & 128 & 9 & 2 & 2 & 20 & 7 & 6 \\
+1 & 11 & 17 & 10 & 24 & 13 & 22 & 0 & 1 \\
+2 & 13 & 23 & 12 & 6 & 10 & 23 & 0 & 1 \\
+3 & 14 & 16 & 13 & 3 & 3 & 24 & 1 & 0 \\
+4 & 26 & 19 & 14 & 0 & 1 & 25 & 1 & 3 \\
+5 & 13 & 17 & 15 & 3 & 10 & 27 & 0 & 1 \\
+6 & 15 & 17 & 16 & 3 & 1 & 30 & 3 & 1 \\
+7 & 7 & 3 & 17 & 0 & 1 & 50 & 1 & 0 \\
+8 & 21 & 15 & 18 & 0 & 1 & 60 & 1 & 0 \\ \hline
+\end{tabular}
+\caption{Data from the 1990 General Social Survey} \label{table:exo2}
+\end{center}
+\end{table}
+
+     
+ \end{itemize} 
+ \end{itemize}
+
+~
+
+\begin{itemize} 
+     \item[(a)] Fit a Poisson GLM with log link and a dummy variable for gender (1=males, 0=females) and explain if the model seems appropriate.
+
+ \end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{setwd}\NormalTok{(}\StringTok{"G:}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{math}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{661"}\NormalTok{)}
+\NormalTok{dat<-}\KeywordTok{read.csv}\NormalTok{(}\StringTok{"sex.csv"}\NormalTok{)}
+\NormalTok{dat<-}\KeywordTok{data.frame}\NormalTok{(}
+\NormalTok{      (}\KeywordTok{rep}\NormalTok{(dat}\OperatorTok{$}\NormalTok{Response,}\DecValTok{2}\NormalTok{)),}
+    \KeywordTok{c}\NormalTok{(dat}\OperatorTok{$}\NormalTok{Male,dat}\OperatorTok{$}\NormalTok{Female),}
+    \KeywordTok{as.factor}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{,}\KeywordTok{nrow}\NormalTok{(dat)),}\KeywordTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{,}\KeywordTok{nrow}\NormalTok{(dat)))) )}
+\KeywordTok{names}\NormalTok{(dat)<-}\KeywordTok{c}\NormalTok{(}\StringTok{"response"}\NormalTok{,}\StringTok{"counts"}\NormalTok{,}\StringTok{"gender"}\NormalTok{)}
+\KeywordTok{str}\NormalTok{(dat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    54 obs. of  3 variables:
+##  $ response: int  0 1 2 3 4 5 6 7 8 9 ...
+##  $ counts  : int  65 11 13 14 26 13 15 7 21 2 ...
+##  $ gender  : Factor w/ 2 levels "0","1": 2 2 2 2 2 2 2 2 2 2 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cbind}\NormalTok{(}\KeywordTok{head}\NormalTok{(dat) ,}\KeywordTok{tail}\NormalTok{(dat))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   response counts gender response counts gender
+## 1        0     65      1       24      0      0
+## 2        1     11      1       25      3      0
+## 3        2     13      1       27      1      0
+## 4        3     14      1       30      1      0
+## 5        4     26      1       50      0      0
+## 6        5     13      1       60      0      0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat.fit<-}\KeywordTok{glm}\NormalTok{(response }\OperatorTok{~}\StringTok{ }\NormalTok{gender, }\DataTypeTok{family=}\NormalTok{poisson, }\DataTypeTok{weights=}\NormalTok{counts, }\DataTypeTok{data=}\NormalTok{dat) }
+\KeywordTok{summary}\NormalTok{(dat.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = response ~ gender, family = poisson, data = dat, 
+##     weights = counts)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -33.191    0.000    3.437    6.126   13.430  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  1.45936    0.02738  53.302  < 2e-16 ***
+## gender1      0.30850    0.03822   8.071 6.95e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 4050.8  on 44  degrees of freedom
+## Residual deviance: 3985.7  on 43  degrees of freedom
+## AIC: 5271.3
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab<-}\KeywordTok{cbind}\NormalTok{(dat[}\KeywordTok{which}\NormalTok{(dat}\OperatorTok{$}\NormalTok{gender }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{),],dat[}\KeywordTok{which}\NormalTok{(dat}\OperatorTok{$}\NormalTok{gender }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{ ),}\OperatorTok{-}\DecValTok{1}\NormalTok{])}
+\NormalTok{tab<-tab[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{)];tab[}\DecValTok{19}\NormalTok{,}\DecValTok{2}\NormalTok{]<-}\KeywordTok{sum}\NormalTok{(tab[}\DecValTok{19}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(tab),}\DecValTok{2}\NormalTok{]);}
+\NormalTok{tab[}\DecValTok{19}\NormalTok{,}\DecValTok{3}\NormalTok{]<-}\KeywordTok{sum}\NormalTok{(tab[}\DecValTok{19}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(tab),}\DecValTok{3}\NormalTok{]);tab<-tab[}\DecValTok{1}\OperatorTok{:}\DecValTok{19}\NormalTok{,]}
+\KeywordTok{names}\NormalTok{(tab)[}\DecValTok{2}\OperatorTok{:}\DecValTok{3}\NormalTok{]<-}\KeywordTok{c}\NormalTok{(}\StringTok{"Female"}\NormalTok{,}\StringTok{"Male"}\NormalTok{)}
+\KeywordTok{head}\NormalTok{(tab) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    response Female Male
+## 28        0    128   65
+## 29        1     17   11
+## 30        2     23   13
+## 31        3     16   14
+## 32        4     19   26
+## 33        5     17   13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{c}\NormalTok{(}\KeywordTok{sum}\NormalTok{(tab[,}\DecValTok{2}\NormalTok{]),}\KeywordTok{sum}\NormalTok{(tab[,}\DecValTok{1}\NormalTok{]}\OperatorTok{*}\NormalTok{tab[,}\DecValTok{2}\NormalTok{]));    }\KeywordTok{sum}\NormalTok{(tab[,}\DecValTok{1}\NormalTok{]}\OperatorTok{*}\NormalTok{tab[,}\DecValTok{2}\NormalTok{])}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(tab[,}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  310 1297
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 4.183871
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sum}\NormalTok{( tab[,}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{((tab[,}\DecValTok{1}\NormalTok{]}\OperatorTok{-}\StringTok{ }\FloatTok{4.183871}\NormalTok{ )}\OperatorTok{^}\DecValTok{2}\NormalTok{) ) }\OperatorTok{/}\StringTok{ }\NormalTok{( }\KeywordTok{sum}\NormalTok{(tab[,}\DecValTok{2}\NormalTok{]) }\OperatorTok{-}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 29.76867
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{c}\NormalTok{(}\KeywordTok{sum}\NormalTok{(tab[,}\DecValTok{3}\NormalTok{]),}\KeywordTok{sum}\NormalTok{(tab[,}\DecValTok{1}\NormalTok{]}\OperatorTok{*}\NormalTok{tab[,}\DecValTok{3}\NormalTok{]));    }\KeywordTok{sum}\NormalTok{(tab[,}\DecValTok{1}\NormalTok{]}\OperatorTok{*}\NormalTok{tab[,}\DecValTok{3}\NormalTok{])}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(tab[,}\DecValTok{3}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  240 1297
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 5.404167
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sum}\NormalTok{( tab[,}\DecValTok{3}\NormalTok{]}\OperatorTok{*}\NormalTok{((tab[,}\DecValTok{1}\NormalTok{]}\OperatorTok{-}\StringTok{ }\FloatTok{4.183871}\NormalTok{ )}\OperatorTok{^}\DecValTok{2}\NormalTok{) ) }\OperatorTok{/}\StringTok{ }\NormalTok{( }\KeywordTok{sum}\NormalTok{(tab[,}\DecValTok{3}\NormalTok{]) }\OperatorTok{-}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 31.30203
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{-}\KeywordTok{pchisq}\NormalTok{(}\FloatTok{3985.7}\NormalTok{,}\DecValTok{43}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+~
+
+\begin{itemize}
+     \item[]   The sample mean for the 1297 women is 4.183871 with a variance of 29.76867. The sample mean for the 1297 men is 5.404167 with a variance of 31.30203. In both groups the sample variances are about 6-7 times the size of the sample means. This is suggesting overdispersion relative to the Poisson. We also see that the model does not give a good fit to the data ($p$-value $\approx0$).
+
+
+ \end{itemize}
+
+~
+
+\begin{itemize}
+     \item[(b)] Interpret the regression coefficient of gender for the model in (a) and provide a 95\% Wald confidence interval for the ratio of means for males versus females.
+
+ \end{itemize}
+
+~
+
+\begin{itemize}
+     \item[] \vspace{1.5 in} 
+
+ \end{itemize}
+
+~
+
+\begin{itemize}
+     \item[(c)] Fit a negative binomial model.  Is there evidence of overdispersion? What is the estimated difference in log means, its standard error, and the 95\% Wald confidence interval for the ratio of means. 
+
+ \end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(MASS)}
+\NormalTok{nb.fit<-}\KeywordTok{glm.nb}\NormalTok{(response }\OperatorTok{~}\StringTok{ }\NormalTok{gender, }\DataTypeTok{weights=}\NormalTok{counts, }\DataTypeTok{data=}\NormalTok{dat)}
+\KeywordTok{summary}\NormalTok{(nb.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm.nb(formula = response ~ gender, data = dat, weights = counts, 
+##     init.theta = 0.5018752366, link = log)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -17.0366    0.0000    0.9873    1.5894    3.4336  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  1.45936    0.08472  17.226   <2e-16 ***
+## gender1      0.30850    0.12724   2.425   0.0153 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Negative Binomial(0.5019) family taken to be 1)
+## 
+##     Null deviance: 606.53  on 44  degrees of freedom
+## Residual deviance: 600.60  on 43  degrees of freedom
+## AIC: 2883
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  0.5019 
+##           Std. Err.:  0.0387 
+## 
+##  2 x log-likelihood:  -2876.9770
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{-}\KeywordTok{pchisq}\NormalTok{(}\DecValTok{600}\NormalTok{,}\DecValTok{43}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#females}
+\KeywordTok{exp}\NormalTok{(}\FloatTok{1.45936}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.303205
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#males}
+\KeywordTok{exp}\NormalTok{(}\FloatTok{1.45936}\OperatorTok{+}\FloatTok{0.30850}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5.858303
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{/}\NormalTok{(}\FloatTok{0.5019} \OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\FloatTok{0.0387}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.347153
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{/}\NormalTok{(}\FloatTok{0.5019} \OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\FloatTok{0.0387}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.730846
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FloatTok{4.303205} \OperatorTok{+}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{(}\FloatTok{0.5019}\NormalTok{) }\OperatorTok{*}\StringTok{ }\FloatTok{4.303205} \OperatorTok{^}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 41.19815
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FloatTok{5.858303} \OperatorTok{+}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{(}\FloatTok{0.5019}\NormalTok{) }\OperatorTok{*}\StringTok{ }\FloatTok{5.858303} \OperatorTok{^}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 74.23789
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{UGdat<-}\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{lapply}\NormalTok{(dat, }\ControlFlowTok{function}\NormalTok{(x,p) }\KeywordTok{rep}\NormalTok{(x,p), dat[[}\StringTok{"counts"}\NormalTok{]]))}
+\KeywordTok{hist}\NormalTok{(UGdat[,}\DecValTok{1}\NormalTok{], }\DataTypeTok{breaks =} \KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{60}\NormalTok{,}\DataTypeTok{by=}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hw5_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+~
+
+\begin{itemize}
+     \item[] 
+
+ \end{itemize}
+
+~
+
+\begin{itemize}
+     \item[(d)] Consider a zero-inflated Poisson model with the zero-inflated component constant across subject (that is with intercept only for the model of $\phi_i$). What are the mixing proportions for the degenerate distribution and the Poisson model? Interpret the regression coefficient of gender.
+
+ \end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{suppressWarnings}\NormalTok{(}\KeywordTok{suppressMessages}\NormalTok{(}\KeywordTok{library}\NormalTok{(pscl)))}
+
+\NormalTok{fit.zip =}\StringTok{ }\KeywordTok{zeroinfl}\NormalTok{(response }\OperatorTok{~}\StringTok{ }\NormalTok{gender }\OperatorTok{|}\StringTok{  }\DecValTok{1}\NormalTok{ ,}\DataTypeTok{data=}\NormalTok{UGdat)}
+\KeywordTok{summary}\NormalTok{(fit.zip )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## zeroinfl(formula = response ~ gender | 1, data = UGdat)
+## 
+## Pearson residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.1692 -1.1547 -0.4264  0.6238 12.2789 
+## 
+## Count model coefficients (poisson with log link):
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  1.99107    0.02747  72.493   <2e-16 ***
+## gender1      0.09242    0.03830   2.413   0.0158 *  
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept) -0.61660    0.08944  -6.894 5.41e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 
+## Number of iterations in BFGS optimization: 8 
+## Log-likelihood: -1835 on 3 Df
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#mixing proportions}
+\KeywordTok{as.numeric}\NormalTok{( }\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(fit.zip)[}\DecValTok{3}\NormalTok{])}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{+}\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(fit.zip)[}\DecValTok{3}\NormalTok{])) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.3505542
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{-}\KeywordTok{as.numeric}\NormalTok{( }\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(fit.zip)[}\DecValTok{3}\NormalTok{])}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{+}\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(fit.zip)[}\DecValTok{3}\NormalTok{])) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.6494458
+\end{verbatim}
+
+~
+
+\begin{itemize}
+     \item[] \vspace{1.5 in} 
+
+ \end{itemize}
+
+~
+
+\begin{itemize}
+     \item[(e)] Consider a zero-inflated negative binomial model. What are the mixing proportions for the degenerate distribution and the negative binomial model? Interpret the regression coefficient of gender.
+
+ \end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit.zinb =}\StringTok{ }\KeywordTok{zeroinfl}\NormalTok{(response }\OperatorTok{~}\StringTok{ }\NormalTok{gender}\OperatorTok{|}\StringTok{ }\DecValTok{1}\NormalTok{ ,}\DataTypeTok{dist=}\StringTok{"negbin"}\NormalTok{,}\DataTypeTok{data=}\NormalTok{UGdat)}
+\KeywordTok{summary}\NormalTok{(fit.zinb)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## zeroinfl(formula = response ~ gender | 1, data = UGdat, dist = "negbin")
+## 
+## Pearson residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.8054 -0.7979 -0.2814  0.3961  8.2062 
+## 
+## Count model coefficients (negbin with log link):
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  1.89133    0.06990  27.059  < 2e-16 ***
+## gender1      0.14584    0.09487   1.537 0.124254    
+## Log(theta)   0.43572    0.12576   3.465 0.000531 ***
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  -0.8439     0.1166  -7.238 4.54e-13 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 
+## Theta = 1.5461 
+## Number of iterations in BFGS optimization: 9 
+## Log-likelihood: -1410 on 4 Df
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#mixing proportions}
+\KeywordTok{as.numeric}\NormalTok{( }\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(fit.zinb)[}\DecValTok{3}\NormalTok{])}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{+}\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(fit.zinb)[}\DecValTok{3}\NormalTok{])) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.300723
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{-}\KeywordTok{as.numeric}\NormalTok{( }\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(fit.zinb)[}\DecValTok{3}\NormalTok{])}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{+}\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(fit.zinb)[}\DecValTok{3}\NormalTok{])) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.699277
+\end{verbatim}
+
+~
+
+\begin{itemize}
+     \item[] \vspace{1.5 in} 
+
+ \end{itemize}
+
+~
+
+\begin{itemize}
+\item[(f)] Provide a table with the observed counts and the fitted counts for each of the four models for $y_i=0, \ldots,20$ and $y_i > 20$.
+
+ \end{itemize}
+
+
+\end{document}
