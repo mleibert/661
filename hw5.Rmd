@@ -1,6 +1,48 @@
 ---
 output: pdf_document
+geometry: margin=1in
 ---
+
+\begin{itemize}
+
+\item[1.] {\bf Exercise 1 -- Agresti 7.36}
+
+Table \ref{table:exo1} is based on a study involving British doctors.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{lrrrr}
+ & \multicolumn{2}{c}{Person-Years}  &  \multicolumn{2}{c}{Coronary Deaths} \\ 
+ Age & Nonsmokers & Smokers & Nonsmokers & Smokers \\ \hline
+35 -- 44 & 18,793 & 52,407 & 2 & 32 \\
+45 -- 54 & 10,673 & 43,248 & 12 & 104 \\
+55 -- 64 & 5,710 & 28,612 & 28 & 206 \\
+65 -- 74 & 2,585 & 12,663 & 28 & 186 \\
+75 -- 84 & 1,462 & 5,317 & 31 & 102 \\ \hline
+\end{tabular}
+\caption{\bf Data on Coronary Death Rates} \label{table:exo1}
+\end{center}
+\end{table}
+
+\begin{itemize}
+\item[(a)] Fit a main effects model for the log rates using age and smoking as factors. In discussing lack-of-fit, show that this model assumes a constant ratio of nonsmokers' to smokers' coronary death rates over age, and evaluate how the sample ratio depends on age.
+
+\vspace{3 in}
+
+\item[(b)] Explain why it is sensible to add a quantitative interaction of age and smoking. For this model, show that the log ratio of coronary death rates changes linearly with age. Assign scores to age, fit the model, and interpret.
+\end{itemize}
+\end{itemize}
+
+
+
+
+
+
+
+\newpage
+
+
+
 
 
  \begin{itemize}
@@ -67,7 +109,7 @@ tab<-cbind(dat[which(dat$gender == 0),],dat[which(dat$gender == 1 ),-1])
 tab<-tab[,c(1,2,4)];tab[19,2]<-sum(tab[19:nrow(tab),2]);
 tab[19,3]<-sum(tab[19:nrow(tab),3]);tab<-tab[1:19,]
 names(tab)[2:3]<-c("Female","Male")
-tab 
+head(tab) 
 c(sum(tab[,2]),sum(tab[,1]*tab[,2]));    sum(tab[,1]*tab[,2])/sum(tab[,2])
 sum( tab[,2]*((tab[,1]- 4.183871 )^2) ) / ( sum(tab[,2]) -1)
 
@@ -103,7 +145,7 @@ sum( tab[,3]*((tab[,1]- 4.183871 )^2) ) / ( sum(tab[,3]) -1)
   \ 
   
  \begin{itemize}
-     \item[] ssssssssssssssss 
+     \item[] \vspace{1.5 in} 
 
  \end{itemize}  
  
@@ -114,8 +156,6 @@ sum( tab[,3]*((tab[,1]- 4.183871 )^2) ) / ( sum(tab[,3]) -1)
      \item[(c)] Fit a negative binomial model.  Is there evidence of overdispersion? What is the estimated difference in log means, its standard error, and the 95\% Wald confidence interval for the ratio of means. 
 
  \end{itemize}
- 
- 
  
  
   \ 
@@ -131,9 +171,17 @@ UGdat<-as.data.frame(lapply(dat, function(x,p) rep(x,p), dat[["counts"]]))
 hist(UGdat[,1], breaks = seq(0,60,by=1))
 ```
   
+ 
+ 
+  \ 
   
+ \begin{itemize}
+     \item[] \vspace{1.5 in} 
+
+ \end{itemize}  
  
  \ 
+ 
  
  
  \begin{itemize}
@@ -142,16 +190,34 @@ hist(UGdat[,1], breaks = seq(0,60,by=1))
  \end{itemize}
  
  
+   \ 
+  
+
+  
+```{r}
+suppressWarnings(suppressMessages(library(pscl)))
+
+fit.zip = zeroinfl(response ~ gender |  1 ,data=UGdat)
+summary(fit.zip )
+
+#mixing proportions
+as.numeric( exp(coef(fit.zip)[3])/(1+exp(coef(fit.zip)[3])) )
+1-as.numeric( exp(coef(fit.zip)[3])/(1+exp(coef(fit.zip)[3])) )
+```  
+  
+  
  
- 
+
  
   \ 
   
-  
-  
-  
+ \begin{itemize}
+     \item[] \vspace{1.5 in} 
+
+ \end{itemize}  
  
  \ 
+ 
  
  
  \begin{itemize}
@@ -163,10 +229,30 @@ hist(UGdat[,1], breaks = seq(0,60,by=1))
   \ 
   
   
+```{r}
+fit.zinb = zeroinfl(response ~ gender| 1 ,dist="negbin",data=UGdat)
+summary(fit.zinb)
+
+#mixing proportions
+as.numeric( exp(coef(fit.zinb)[3])/(1+exp(coef(fit.zinb)[3])) )
+1-as.numeric( exp(coef(fit.zinb)[3])/(1+exp(coef(fit.zinb)[3])) )
+```
+  
+  
+  
   
   
  
+ 
+  \ 
+  
+ \begin{itemize}
+     \item[] \vspace{1.5 in} 
+
+ \end{itemize}  
+ 
  \ 
+ 
  
  
  \begin{itemize}
@@ -174,14 +260,6 @@ hist(UGdat[,1], breaks = seq(0,60,by=1))
 
  \end{itemize}
  
- 
-  \ 
   
-  
-  
-  
- 
- \ 
- 
  
  

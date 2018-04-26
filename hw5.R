@@ -37,10 +37,7 @@ smokers.fit<- glm(Deaths ~ age+smoker, offset = log(PersonYears),
 plot( ( smokers.fit$linear.predictors[1:5] )  ,  ylim=c(1.5,6) )
 points((smokers.fit$linear.predictors[6:10]))
  
-plot( (smokers.fit$fitted.values )   )
-
- 
-
+plot( ( smokers.fit$fitted.values[6:10] )   )
 
 summary(smokers.fit)
 
@@ -55,8 +52,8 @@ smokersQI.fit<- glm(Deaths ~ ageQI*smoker, offset = log(PersonYears),
 summary(smokersQI.fit)
  1-pchisq(59.9 , 6)
 
-plot( ( smokersQI.fit$linear.predictors[1:5] )  ,  ylim=c(1.5,6) )
-points((smokersQI.fit$linear.predictors[6:10]))
+plot( 1:5, ( smokersQI.fit$linear.predictors[1:5] )   )
+plot( 1:5, ( smokersQI.fit$linear.predictors[6:10] )   )
 
 ################################################
 ################################################
@@ -105,11 +102,12 @@ tab$PestM<-round(dpois(tab$response ,exp(1.45936+ 0.30850 ))*sum(tab[,3]),2)
 
 muhat = unique(nb.fit$fitted.values)
 dnbinom(tab$response,size = nb.fit$theta, mu = muhat[2]) *310
+odTest(nb.fit) 
 
 #2d
 require("pscl")
 UGdat<-as.data.frame(lapply(dat, function(x,p) rep(x,p), dat[["counts"]]))
-fit.zip = zeroinfl(response ~ gender| 1 ,data=UGdat)
+fit.zip = zeroinfl(response ~ gender |  1 ,data=UGdat)
 
 summary(fit.zip )
 #mixing paramter
