@@ -31,12 +31,16 @@ sex.muhat = unique(sex.nb$fitted.values)
 hom.n = by(homicide$counts, homicide$race, sum)
 sex.n = by(dat$counts, dat$gender, sum)
 
+
+
 nwhite.poi = round(dpois(0:6, lambda=hom.muhat[2])*hom.n[1],3)
 nblack.poi = round(dpois(0:6, lambda=hom.muhat[1])*hom.n[2],3)
 
-nfemale.poi = dpois(unique(dat[,1]), lambda=sex.muhat[1])*sex.n[1]
-nmale.poi = dpois(unique(dat[,1]), lambda=sex.muhat[2])*sex.n[2]
+nfemale.poi = dpois(0:20, lambda=sex.muhat[1])  *sex.n[1]
+nfemales.poi = (1-sum(dpois(0:20, lambda=sex.muhat[1])))*sex.n[1]
 
+ nmale.poi = dpois(unique(dat[,1]), lambda=sex.muhat[2])*sex.n[2]
+nmales.poi = (1-sum(dpois(0:20, lambda=sex.muhat[2])))*sex.n[2]
 
 
 nwhite.negb = round(dnbinom(0:6, size=hom.nb$theta, 
@@ -45,8 +49,13 @@ nblack.negb = round(dnbinom(0:6, size=hom.nb$theta,
 	mu=hom.muhat[1])*hom.n[2],3)
 
 
-nfemale.negb = round(dnbinom(unique(dat[,1]), size=sex.nb$theta,
-	mu=sex.muhat[1])*sex.n[1],3)
+nfemale.negb = round(
+dnbinom(0:20, size=sex.nb$theta,	mu=sex.muhat[1])*
+sex.n[1],3)
+
+(1- sum(dnbinom(0:20, size=sex.nb$theta,	mu=sex.muhat[1])))*sex.n[1]
+(1- sum(dnbinom(0:20, size=sex.nb$theta,	mu=sex.muhat[2])))*sex.n[2]
+
 nmale.negb = round(dnbinom(unique(dat[,1]), size=sex.nb$theta, 
 	mu=sex.muhat[2])*sex.n[2],3)
 
@@ -107,5 +116,29 @@ tab$zinbM<-round(c( as.numeric(
 
 print(tab,row.names = F)
 
+tab<-tab[1:20,]
+tab
+
+tab[20, ]<-1:ncol(tab)
+
+tab[20,4]<-round( (1-sum(dpois(0:20, lambda=sex.muhat[1] )))*sex.n[1],3)
+tab[20,5]<-round( (1-sum(dpois(0:20, lambda=sex.muhat[2])))*sex.n[2],3)
+
+tab[20,6]<-round( (1- sum(dnbinom(0:20, size=sex.nb$theta,	
+	mu=sex.muhat[1])))*sex.n[1],3)
+tab[20,7]<-round( (1- sum(dnbinom(0:20, size=sex.nb$theta,
+	mu=sex.muhat[2])))*sex.n[2],3)
+
+tab[20,8]<-round( ( ( 0.3505542)* (1-sum(dpois(1:20,exp(1.99107)) )))*
+	sex.n[1],3)
+tab[20,9]<-round( ( ( 0.3505542)* (1-sum(dpois(1:20,exp(1.99107 +
+	 0.09242)) )))*	sex.n[2],3)
+
+ 
+tab[20,10]<-round( sex.n[1]* ( (1- 0.300723) * 
+	(1-sum(dnbinom(0:20,	mu=exp(1.89133),	exp(0.43572))))),3)
+
+tab[20,11]<-round( sex.n[2]* ( (1- 0.300723) * (1-sum(dnbinom(0:20, 
+	mu=exp(1.89133+	0.14584),	 exp(0.43572))))),3)
 
 

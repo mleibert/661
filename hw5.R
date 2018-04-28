@@ -1,7 +1,7 @@
 rm(list = ls())
 setwd("G:\\math\\661")
 options(scipen=999)
-library(emojifont)
+ 
 
 smoke<-data.frame(
 	c(  35 , 44 , 18793 , 52407 , 2 , 32 ),
@@ -63,7 +63,7 @@ summary(smokers.fit)
 #1b
 
  
-
+ exp(  1.047  ) / exp( 1.28369)
 
 smokersQI.fit<-  glm(Deaths ~ ageQI+smoker+ageQI*smoker, 
 	offset = log(PersonYears),family=poisson, data=smokers   ) 
@@ -74,7 +74,7 @@ summary(smokersQI.fit)
  1-pchisq(59.8955 , 6)
 
 
-smokersQI.fit$linear.predictors
+exp( smokersQI.fit$linear.predictors )
 
 plot( 1:5, ( smokersQI.fit$fitted.values[1:5] )   )
 plot( 1:5, ( smokersQI.fit$fitted.values[6:10] )   )
