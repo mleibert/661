@@ -47,25 +47,73 @@ cough$pollution<-relevel(as.factor(cough$pollution), ref="low")
 #Use low air pollution, no job exposure and non-smoker as reference group.
 
 cough
-
+dat
 
 
 require(VGAM)
-cough.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+ exposure + smoker,
-	family=cumulative(parallel=T),data=cough)
-summary(cough.fit)
+library(MASS)
 
+polr.fit = polr(as.factor(level) ~ smoker+ exposure+ pollution +
+	smoker*exposure + smoker*pollution+pollution*exposure , 
+	weights=count, data=dat)
+df.residual(polr.fit )
+
+
+cough.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+ as.factor(exposure) +
+	as.factor( smoker) ,family=cumulative(parallel=T),data=cough)
+
+cough.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+  (exposure) +( smoker)+
+	smoker*exposure + smoker*pollution+pollution*exposure ,
+	  family=cumulative(parallel=T),data=cough)
+
+
+
+
+vglm.cough<-vglm(as.factor(level) ~exposure+ pollution+ smoker +
+	smoker*exposure + smoker*pollution+pollution*exposure ,
+  	family=cumulative(parallel=T),data=cough.ungrp ) 
+
+
+
+vglm.cough<-vglm(as.factor(level) ~exposure+ pollution+ smoker +
+	smoker*exposure + smoker*pollution+pollution*exposure ,
+  	family=cumulative(parallel=T),data=cough.ungrp ) 
+
+noprop.cough<-vglm(as.factor(level) ~exposure+ pollution+ smoker +
+	smoker*exposure + smoker*pollution+pollution*exposure ,
+  	family=cumulative(parallel=F),data=cough.ungrp ) 
+
+
+1-pchisq(deviance(polr.fit ),df.residual(polr.fit ))
+
+1-pchisq(29.99692,29)
+logLik(polr.fit )
+logLik(cough.fit)
+
+ res<-hoslem.test(polr.fit$level,fitted(polr.fit))
+
+library(ResourceSelection)
+cough.fit
+
+
+summary(cough.fit)
+str(cough)
 tail( cough.ungrp  )
 vglm.cough = vglm(level ~ pollution+ exposure + smoker,
+	
 	family=cumulative(parallel=T),data=cough.ungrp  )
 summary(cough.fit)
 summary(vglm.cough )
+ 
+donner.glm<-glm(vs~mpg+cyl,data=mtcars,family=binomial )
+ 
+res<-hoslem.test(donner.glm$y,fitted(vglm.cough) )
 
 
 
 #goodness of fit
 1-pchisq(29.9969, 29)
-1-pchisq(4178.511 , 6260 )
+1-pchisq( 4175.81, 6255 )
 
 
 #We can test the proportional odds assumption
@@ -87,7 +135,6 @@ nocough.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+ exposure + smoker,
 
 1-pchisq(-2*(logLik(cough.fit)-logLik(nocough.fit)),
 	df=df.residual(cough.fit)-df.residual((nocough.fit)))
-
 
 
 

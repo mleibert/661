@@ -48,6 +48,8 @@ str(dat)
 dat$smoker<-relevel(as.factor(dat$smoker), ref="Non")
 dat$exposure<-relevel(as.factor(dat$exposure), ref="no")
 dat$pollution<-relevel(as.factor(dat$pollution), ref="low")
+dat$level<-relevel(as.factor(dat$level), ref=1)
+
 
 cough<-data.frame( rep( unique(dat$smoker) ,4 ),
 	rep( unique(dat$exposure) ,6 ),

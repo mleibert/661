@@ -1,0 +1,54 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, echo=FALSE}
+rm(list = ls())
+setwd("G:\\math\\661")
+options(scipen=999)
+require(ggplot2);library(MASS);library(VGAM)
+cheese<-read.table("cheese.txt",header=T)
+cheese.ungrp = as.data.frame(lapply(cheese, function(x,p) rep(x,p), cheese$count))
+
+cheese.mat<-matrix(NA,4,9)
+cheese.mat[1,]<-cheese[ 1:9,3]
+cheese.mat[2,]<-cheese[ 10:18,3]
+cheese.mat[3,]<-cheese[ 19:27,3]
+cheese.mat[4,]<-cheese[ 28:36,3]
+cheesy<-as.data.frame(cbind(c(1:4),cheese.mat),stringsAsFactors=F)
+names(cheesy)<-c("type",paste0("Y",1:9))
+for( i in 1:9){cheesy[,i+1]<-as.numeric(cheesy[,i+1]) }
+```
+
+
+```{r}
+polr.fit=summary(  polr(as.factor(response) ~ type, weights=count, data=cheese) )
+polr.fit
+vglm.fit=summary( vglm(response ~ type, family=cumulative(parallel=TRUE),
+	data=cheese.ungrp) )
+vglm.fit
+cheesy.fit=summary( vglm( cbind( Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,Y9) ~ 
+	as.factor(type), family=cumulative(parallel=T) , data=cheesy) )
+cheesy.fit
+df.residual(polr.fit )
+df.residual(vglm.fit )
+df.residual(cheesy.fit )
+```
+
+```{r}
+
+#1-pchisq(-2*(logLik(vglm.fit)-logLik(noprop.fit)),
+#	df=df.residual(vglm.fit)-df.residual((noprop.fit)))
+
+
+mental<-read.table("mental.txt",header=T)
+mental
+
+vglm(impair ~ life + ses, family=cumulative(parallel=TRUE), data=mental)
+polr(as.factor(impair) ~ life + ses,   data=mental)
+```
+
+
+
+
