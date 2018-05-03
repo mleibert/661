@@ -2,6 +2,8 @@ rm(list = ls())
 setwd("G:\\math\\661")
 options(scipen=999)
 require(ggplot2)
+library(MASS)
+library(VGAM)
 
 tempp<-data.frame( rep( "low" ,6 ) );names(tempp)<-"pollution"
 tempp$exposure<- c( rep( "no" ,3 ),  rep( "yes" ,3 ))
@@ -62,16 +64,19 @@ df.residual(polr.fit )
 cough.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+ as.factor(exposure) +
 	as.factor( smoker) ,family=cumulative(parallel=T),data=cough)
 
+## use this guy
+
 cough.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+  (exposure) +( smoker)+
 	smoker*exposure + smoker*pollution+pollution*exposure ,
 	  family=cumulative(parallel=T),data=cough)
 
+1-pchisq(27.29641,24)
 
 
+main.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+  (exposure) +( smoker),
+	family=cumulative(parallel=T),data=cough)
 
-vglm.cough<-vglm(as.factor(level) ~exposure+ pollution+ smoker +
-	smoker*exposure + smoker*pollution+pollution*exposure ,
-  	family=cumulative(parallel=T),data=cough.ungrp ) 
+
 
 
 
@@ -115,7 +120,8 @@ res<-hoslem.test(donner.glm$y,fitted(vglm.cough) )
 1-pchisq(29.9969, 29)
 1-pchisq( 4175.81, 6255 )
 
-
+#Use a likelihood ratio test to check the proportional
+#odds assumption in the model above.
 #We can test the proportional odds assumption
 H0 : same slope for all cumulative logits vs. H1 : different slopes
 
@@ -128,13 +134,30 @@ noprop.fit = vglm(response ~ type, family=cumulative, data=cheese.ungrp)
 1-pchisq(-2*(logLik(vglm.fit)-logLik(noprop.fit)),
 	df=df.residual(vglm.fit)-df.residual((noprop.fit)))
 
-nocough.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+ exposure + smoker,
-	family=cumulative ,data=cough)
+noprop.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+  (exposure) +( smoker)+
+	smoker*exposure + smoker*pollution+pollution*exposure ,
+	  family=cumulative(parallel=F),data=cough)
+
+1-pchisq(-2*(logLik(cough.fit)-logLik(noprop.fit)),
+	df=df.residual(cough.fit)-df.residual((noprop.fit)))
 
 
+#Use a likelihood ratio test to determine whether to include or not the 
+#interaction terms in the proportional odds cumulative logit model.
 
-1-pchisq(-2*(logLik(cough.fit)-logLik(nocough.fit)),
-	df=df.residual(cough.fit)-df.residual((nocough.fit)))
+#H0: model with main effects fits as well as model with interaction effects
+
+
+deviance(main.fit)-deviance(cough.fit)
+1-pchisq(deviance(main.fit)-deviance(cough.fit), 5)
+
+
+# In the following questions, use the main effects cumulative logit 
+# proportional odds model:
+
+#Interpret each of the three intercepts.
+
+summary(main.fit)
 
 
 

@@ -6,7 +6,6 @@ dat[3,]<-c(0,1,397,141,24)
 dat[4,]<-c(0,0,235,189,39)
 names(dat)<-c("race" ,"gender", "y1", "y2", "y3")
 
-(vglm(cbind(y1,y2,y3) ~ gender+race, family=cumulative(parallel=T),data=dat) )
 
 dat
 dat.bf<-data.frame(rep(1,sum(dat[1,3:5])),rep(1,sum(dat[1,3:5])),
@@ -37,12 +36,16 @@ dat.ungrp<-rbind(dat.bf,dat.bm,dat.wf,dat.wm)
 names(dat.ungrp)<-c("race","gender","y")
 
 
- (vglm( y ~ gender+race, family=cumulative(parallel=T), data=dat.ungrp))
 
-polr(as.factor(y) ~ gender+race, weights = count ,  data=datt)
-df.residual(polr(as.factor(y) ~ gender+race, weights = count ,  data=datt) )
 
 datt<-data.frame( c(rep(1,6),rep(0,6)),c(rep(1,3),rep(0,3),rep(1,3),rep(0,3)))
 names(datt)<-c("race","gender" )
 datt$count<-as.numeric( c(dat[1,3:5],dat[2,3:5],dat[3,3:5] ,dat[4,3:5])  )
 datt$y<-rep(1:3,4)
+
+library(VGAM)
+(vglm( y ~ gender+race, family=cumulative(parallel=T), data=dat.ungrp))
+vglm(cbind(y1,y2,y3) ~ gender+race, family=cumulative(parallel=T),data=dat) 
+polr(as.factor(y) ~ gender+race, weights = count ,  data=datt)
+
+df.residual(polr(as.factor(y) ~ gender+race, weights = count ,  data=datt) )
