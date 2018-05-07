@@ -1,0 +1,756 @@
+---
+title: ''
+output: pdf_document
+---
+
+
+Michael Leibert
+
+
+
+\ 
+
+\subsection*{Part I:  Chronic respiratory disease [ 25 points ] }
+
+Table \ref{table:ex1} summarizes the data from an epidemiological study of chronic respiratory disease. Researchers collected information on subjects' exposure to general pollution (low or high), exposure to pollution in their jobs (yes or no), and their smoking status (current smoker, ex-smoker, non-smoker). The measured response is chronic respiratory disease status classified into four categories:
+\begin{itemize}
+\item 1 -- no symptoms \  
+\item 2 -- cough or phlegm less than 3 months a year \ 
+\item 3 -- cough or phlegm more than 3 months a year \
+\item 4 -- cough and phlegm plus shortness of breath more than 3 months a year \ 
+\end{itemize}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{cccrrrrr} \hline
+\\[-.9 em]
+ &  &  &  \multicolumn{4}{c}{\bf Response level}  & \\[.2em] \cline{4-7}
+ \\[-.9 em]
+ Air pollution & Job exposure & Smoking status & 1 & 2 & 3 & 4 & Total \\[.2em] \hline 
+ \\[-.9 em]
+Low & No & Non & 158 & 9 & 5 & 0 & 172\\[.2em]
+  &  &  Ex & 167 & 19 & 5 & 3 & 194 \\[.2em] 
+  &  &  Current & 307 & 102 & 83 & 68 & 560 \\[.2em] \cline{3-8}
+  \\[-.9 em]
+  &  Yes & Non & 26 & 5 & 5 & 1 & 37 \\[.2em]
+   &  & Ex & 38 & 12 & 4 & 4 & 58 \\[.2em]
+   &  &  Current &  94 & 48 & 46  & 60 & 248 \\[.2em] \hline
+   \\[-.8 em]
+High & No & Non & 94 & 7 & 5 & 1 & 107 \\[.2em]
+  &  &  Ex & 67 & 8 & 4 & 3 & 82 \\[.2em] 
+  & & Current &  184 & 65  & 33 & 36 & 318 \\[.2em] \cline{3-8}
+  \\[-.9 em]
+  & Yes & Non & 32 & 3 & 6 & 1 & 42 \\[.2em]
+   &  & Ex & 39 & 11 & 4 & 2 & 56 \\[.2em] 
+   &  &  Current & 77 & 48 & 39 & 51 & 215 \\[.2em] \hline
+  \end{tabular}
+  \caption{Chronic respiratory disease data} \label{table:ex1}
+  \end{center}
+  \end{table}
+    
+  \vspace*{3mm}                                        
+
+
+\begin{itemize}
+\item[1.] Fit a proportional odds cumulative logit model with pairwise interaction effects for all covariates and assess its goodness of fit. Use low air pollution, no job exposure and non-smoker as reference group.
+\end{itemize}
+
+\ 
+
+```{r}
+rm(list = ls());setwd("G:\\math\\661"); options(scipen=999);  library(VGAM,quietly=T)
+tempp<-data.frame( rep( "low" ,6 ) );names(tempp)<-"pollution"
+tempp$exposure<- c( rep( "no" ,3 ),  rep( "yes" ,3 ))
+tempp$smoker<-  rep( c("non","ex","current") ,2 ) 
+mat<-matrix(NA,6,4)
+mat[1,]<-c(158,9,5,0 );mat[2,]<-c(167 ,19 , 5, 3)
+mat[3,]<-c(307,102,83 ,68);mat[4,]<-c(26, 5 ,5, 1)
+mat[5,]<-c(38, 12, 4, 4 );mat[6,]<-c(94, 48, 46, 60 )
+cough<-cbind(tempp,mat); names(cough)[ 4:ncol(cough)]<-paste0("Y",1:4)
+
+tempp<-data.frame( rep( "high" ,6 ) );names(tempp)<-"pollution"
+tempp$exposure<- c( rep( "no" ,3 ),  rep( "yes" ,3 ))
+tempp$smoker<-  rep( c("non","ex","current") ,2 ) 
+mat<-matrix(NA,6,4)
+mat[1,]<-c(94, 7, 5 ,1 ); mat[2,]<-c(67, 8, 4 ,3)
+mat[3,]<-c(184, 65, 33, 36); mat[4,]<-c(32, 3, 6, 1)
+mat[5,]<-c(39, 11, 4 ,2); mat[6,]<-c(77, 48, 39, 51)
+tempp<-cbind(tempp,mat); names(tempp)[ 4:ncol(tempp)]<-paste0("Y",1:4)
+cough<-rbind(cough,tempp)
+cough$smoker<-relevel(as.factor(cough$smoker), ref="non")
+cough$exposure<-relevel(as.factor(cough$exposure), ref="no")
+cough$pollution<-relevel(as.factor(cough$pollution), ref="low");rm(tempp)
+
+cough
+
+
+str(cough)
+
+inter.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution + exposure + smoker + smoker*exposure + 
+	smoker*pollution+pollution*exposure,	family=cumulative(parallel=T),data=cough)
+summary(inter.fit)
+```
+
+
+\ 
+
+\begin{itemize}
+\item[] The goodness-of-fit test:
+
+\ 
+
+\hfil $H_0$: model fits the data well \hspace{.15 cm} vs.  \hspace{.15 cm} $H_1$: model does not fit the data well.
+
+\ 
+
+The current (interaction) model has $df=36-12=24$, $\Big((4-1)\cdot 12 = 36\Big)$ and the residual deviance is 27.2964, which leads to a $p$-value = 0.2908274. The model provides an adequate fit.
+
+\end{itemize}
+
+\ 
+
+
+```{r}
+1-pchisq(27.29641,24)
+```
+
+ 
+
+\ 
+
+\begin{itemize}
+\item[2.] Use a likelihood ratio test to check the proportional odds assumption in the model above.
+\end{itemize}
+
+\ 
+
+\begin{itemize}
+\item[] We use a likelihood ratio test to check the proportional odds assumption in the model above. We can test the proportional odds assumption:
+
+\ 
+
+\hfil $H_0$: same slope for all cumulative logits \hspace{.15 cm} vs.  \hspace{.15 cm} $H_1$: different slopes
+
+\ 
+
+\end{itemize}
+
+```{r}
+noprop.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution + exposure + smoker +	smoker*exposure + 
+  smoker*pollution+pollution*exposure ,	family=cumulative(parallel=F),data=cough)
+
+1-pchisq(-2*(logLik(inter.fit)-logLik(noprop.fit)),	df=df.residual(inter.fit)-df.residual((noprop.fit)))
+```
+
+
+\ 
+
+\begin{itemize}
+\item[] We fail to reject the null and can assume a proportional odds structure.
+
+\ 
+
+\end{itemize}
+
+
+\begin{itemize}
+\item[3.] Use a likelihood ratio test to determine whether to include or not the interaction terms in the proportional odds cumulative logit model.
+\end{itemize}
+
+\ 
+
+\begin{itemize} \item[] 
+
+\hfil $H_0$: model with main effects fits as well as model with interaction effects
+
+\ 
+
+We can use a likelihood ratio test to compare this model to the main effects model, which will have an approximate chi-square distribution with $df = 29-24 = 5$. This is equivalent to evaluating the change in deviance between the two models:
+\end{itemize}
+
+\ 
+
+
+
+
+```{r}
+main.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution + exposure + smoker,
+               family=cumulative(parallel=T),data=cough)
+deviance(main.fit)-deviance(inter.fit)
+df.residual(main.fit); df.residual(inter.fit)
+1-pchisq(deviance(main.fit)-deviance(inter.fit), 5)
+```
+
+
+\ 
+
+
+\begin{itemize}
+\item[] We fail to reject $H_0$ at $\alpha = 0.05$, thus the model with interaction effects doesn't provide a better fit compared to the main effects model.
+\end{itemize}
+
+
+\ 
+
+
+
+
+
+
+\begin{itemize}
+\item[4.] In the following questions, use the main effects cumulative logit proportional odds model:
+\end{itemize}
+
+\ 
+
+```{r}
+summary(main.fit)
+```
+
+\ 
+
+
+\begin{itemize}
+\item[(a)] Interpret each of the three intercepts.
+
+
+\ 
+
+ 
+$\hat{\alpha}_1 = 2.08844$: Is the estimated baseline log odds of falling into category 1 (no symptoms) versus all other categories for individuals with exposure to low air pollution, exposure to low job pollution, and who are non-smokers.
+
+\ 
+ 
+ $\hat{\alpha}_2 = 2.96964$: Is the estimated baseline log odds of falling into either category 1 (no symptoms) or category 2 (cough or phlegm less than 3 months a year) versus all other categories for individuals with exposure to low air pollution, exposure to low job pollution, and who are non-smokers.
+
+\ 
+ 
+ $\hat{\alpha}_3 = 3.89385$: Is the estimated baseline log odds of falling into either category 1 (no symptoms), category 2 (cough or phlegm less than 3 months a year), category 3 (cough or phlegm more than 3 months a year) versus all other categories for individuals with exposure to low air pollution, exposure to low job pollution, and who are non-smokers.
+ 
+\end{itemize}
+
+
+\ 
+
+
+
+
+\begin{itemize}
+\item[(b)] Which variables appear to be associated with chronic respiratory disease?  Interpret the regression coefficients for the covariates with significant association. 
+
+ \ 
+ 
+ The variables that appear to be associate with chronic respiratory disease are {\bf exposure to pollution in their jobs}, {\bf smoking status: current}, and {\bf smoking status: ex-smoker}.
+ 
+ \ 
+ 
+ Controlling for air pollution and smoking status, the estimated log-odds of a response in the category 1 direction rather than the category 4 direction for individuals who are exposed to pollution in their jobs is 0.86476 lower than individuals who are not exposed to pollution in their jobs. (i.e., the estimated odds ratio for individuals who are exposed to pollution in their jobs versus individuals who are not exposed to pollution in their jobs is $\exp(-0.86476)$ = 0.4211526). This indicates, controlling for pollution and smoking status, individuals who are exposed to pollution are more likely to have worse symptom outcomes.
+ 
+ 
+ 
+\ 
+
+ Controlling for air pollution and job pollution, the estimated log-odds of a response in the category 1 direction rather than the category 4 direction for current smokers is 1.85271 lower than non-smokers. (i.e., the estimated odds ratio for smokers versus non-smokers is $\exp(-1.85271)$ = 0.1568116). This indicates, controlling for pollution and job pollution, individuals who are smokers are much more  likely to have worse symptom outcomes.
+
+ 
+ 
+\ 
+
+ Controlling for air pollution and job pollution, the estimated log-odds of a response in the category 1 direction rather than the category 4 direction for ex-smokers is 0.40003 lower than non-smokers. (i.e., the estimated odds ratio for smokers versus non-smokers is $\exp(-0.40003)$ = 0.6702999). This indicates, controlling for pollution and job pollution, individuals who are ex-smokers are more likely to have worse symptom outcomes.
+
+
+\end{itemize}
+
+\ 
+
+
+
+
+
+
+
+
+
+
+\begin{itemize}
+\item[(c)]  What are the estimated probabilities of falling in each of the different response categories for a current smoker with job exposure to pollution and high general air pollution exposure?  Show the details of your calculations manually.
+
+\ 
+
+
+ \begin{align*}
+     \log \left( \cfrac{\hat{P}\left(y_i \leq 1\right)}{1-\hat{P}\left(y_i \leq 1\right)} \right) &=
+        2.08843944  +  0.03929225   -0.86476105   -1.85271076 = -0.5897401 \\
+        \hat{P}\left(y_i \leq 1\right) &= \cfrac{\exp(-0.5897401)}{1+\exp(-0.5897401)} = 0.3566945 \\
+        \\
+    \log \left( \cfrac{\hat{P}\left(y_i \leq 2\right)}{1-\hat{P}\left(y_i \leq 2\right)} \right) &=
+        2.96964165 +   0.03929225   -0.86476105   -1.85271076 = 0.2914621 \\
+        \hat{P}\left(y_i \leq 2\right) &= \cfrac{\exp(0.291462)}{1+\exp(0.291462)} = 0.572354 \\ 
+        \hat{P}\left(y_i = 2\right) &=   \hat{P}\left(y_i \leq 2\right) -   \hat{P}\left(y_i \leq 1\right) =
+        0.572354 - 0.3566945 = 0.2156595 \\ 
+                \\
+    \log \left( \cfrac{\hat{P}\left(y_i \leq 3\right)}{1-\hat{P}\left(y_i \leq 3\right)} \right) &=
+       3.89385000  +   0.03929225   -0.86476105   -1.85271076 = 1.215671 \\
+        \hat{P}\left(y_i \leq 3\right) &= \cfrac{\exp(1.21567)}{1+\exp(1.21567)} =  0.7713007 \\ 
+        \hat{P}\left(y_i = 3\right) &=   \hat{P}\left(y_i \leq 3\right) -   \hat{P}\left(y_i \leq 2\right) =
+        0.7713007 - 0.572354  =0.1989467 \\ 
+        \\
+      \hat{P}\left(y_i = 4\right) &=  1-   \hat{P}\left(y_i \leq 3\right) =    1-    0.7713007   = 0.2286993
+ \end{align*} 
+ 
+\end{itemize}
+
+
+\ 
+
+ 
+
+
+
+
+
+
+\begin{itemize}
+\item[(d)]  For each covariate pattern, provide the predicted number of people falling in each of the response levels.
+\end{itemize}
+
+
+\ 
+
+
+```{r}
+coughing<-cough;coughing$tY<-rowSums(coughing[,4:7]); 
+coughing<-cbind(coughing,round(predict(main.fit,type="response"),3))
+coughing; names(coughing)[(ncol(coughing)-3):ncol(coughing)]<-paste0("pi",1:4)
+
+print( cbind(coughing, coughing[,(ncol(coughing)-3):ncol(coughing)]*
+	coughing[,(ncol(coughing)-4)] ) )
+```
+
+ 
+\ 
+
+
+
+\newpage
+
+
+\subsection*{Part II:  Number of plant species in the Galápagos [ 25 points ] }
+
+The 30 islands in the Galápagos archipelago have long been studied by botanists, zoologists and biologists to learn about species survival and the process of natural selection in an almost experimental setting. The islands are essentially uninhabited by humans and all experience the same surrounding climate. Yet some species of birds, plants and mammals thrive on only a few or even just one of the islands. In addition, some islands have a wide variety of species, while others are not nearly as biodiverse. We are interested in investigating which variables may be related to the number of plant species in the archipelago islands. \\
+
+The data \verb|Galapagos.txt| posted on Canvas contain information on plant species on the Galápagos islands. The variables in the data correspond to
+\begin{itemize}
+\item {\tt island} -- name of island  \ 
+\item {\tt species} -- island total observed plant species count  \ 
+\item {\tt endemics} -- island endemic plant species count  \ 
+\item {\tt area} -- island area (km$^2$)  \ 
+\item {\tt elevation} -- island elevation (meters)  \ 
+\item {\tt nearest} -- distance in km from the island to its nearest neighbor (adjacent island)  \ 
+\item {\tt scruz} -- distance in km from the island to the largest island (Santa Cruz)  \ 
+\item {\tt adjacent} -- area of the adjacent island \\
+\end{itemize}
+
+
+\ 
+
+\begin{itemize}
+\item[(1)] {\bf Exploratory data analysis}
+\end{itemize}
+ 
+\ 
+
+
+
+ \begin{itemize}
+\item[(a)] Provide a histogram and summary statistics for the observed counts of total plant species.  Discuss the distribution.  
+\end{itemize}
+
+
+
+
+\ 
+
+```{r}
+rm(list = ls()); setwd("G:\\math\\661"); options(scipen=999);require(ggplot2,quietly=T)
+plant<-read.table("Galapagos.txt",header=T);source("multiplot.r")  
+
+ggplot(plant, aes(x=species))+  geom_histogram(color="darkblue", fill="lightblue",bins=30)
+summary(plant$species);IQR(plant$species)
+
+```
+
+
+\ 
+
+\begin{itemize} \item[] 
+The distribution of the counts is skewed to the right with a large proportion of islands having small counts. More than half of the islands have counts of species less than 50, with roughly 75\% of the islands having less than 100. The median species count for the islands is 85.23333 (median = 42) and a standard deviation of 114.6331 (IQR = 83). The mean and the standard deviation are being heavily influenced by the islands that have disproportionately large counts.
+\end{itemize} 
+
+\ 
+
+
+   \begin{itemize}
+\item[(b)] Create plots of the logarithm of the observed counts of total plant species, $\log$({\tt species}), versus each of the five potential covariates: {\tt area, elevation, nearest, scruz, adjacent}. 
+\end{itemize} 
+
+
+
+\ 
+
+```{r}
+dat<-plant[,c(which(names(plant) %in% c("species","area", "elevation", 	"nearest",	
+  "scruz", "adjacent")))];  gglist<-list();dat[,1]<-log(dat[,1])
+for(i in 2:ncol(dat)){	gglist[[i]] <- ggplot(dat, aes_string(x="species",y=colnames(dat)[i]
+	 )) +	geom_point()	}
+multiplot(gglist[[2]], gglist[[3]], gglist[[4]], gglist[[5]],gglist[[6]],	 cols=2)
+```
+
+
+\ 
+
+
+\begin{itemize}
+\item[(c)] Repeat the previous question using the logarithm of each of the covariates. Which variables appear to be related to $\log$({\tt species})?\\
+{\bf Caution:} Always check for any zero value before using a logarithm transformation. A quick fix is to add a small non-zero number, e.g., consider $x+0.1$ instead of $x$.
+\end{itemize}
+
+
+
+
+\ 
+
+```{r}
+dat[dat== 0] <- .1;dat[,-1]<-log(dat[,-1]);head(dat,3)
+for(i in 2:ncol(dat)){	gglist[[5+i]] <- 
+  ggplot(dat, aes_string(x="species",y=colnames(dat)[i]	 )) +	geom_point()	}
+multiplot(gglist[[2+5]], gglist[[3+5]], gglist[[4+5]], gglist[[5+5]],
+	gglist[[5+6]],	 cols=2)
+```
+
+
+
+
+\ 
+
+\begin{itemize} \item[] 
+The variables appear to be related to {\tt log(species)} are {\tt area} and {\tt elevation}.
+\end{itemize} 
+
+\ 
+
+
+
+
+\begin{itemize}
+\item[2.] {\bf Model building \& diagnostics}
+\end{itemize}
+
+\begin{itemize} \item[] 
+\item[(a)] Fit a Poisson model with all five covariates on the log scale. Which covariates appear to have a significant effect on species counts?
+\end{itemize}
+
+
+\ 
+
+
+```{r}
+rm(list = ls()); setwd("G:\\math\\661"); options(scipen=999); library(MASS)
+
+plants<-read.table("Galapagos.txt",header=T); plant<-read.table("Galapagos.txt",header=T)
+
+plants<-plants[,c(which(names(plants) %in% c("species","area", "elevation", 
+	"nearest",	"scruz", "adjacent")))]
+plants[plants== 0] <- .1;plants[,-1]<-log(plants[,-1])
+plants.pois<-glm( species ~ . , family=poisson, data=plants)
+summary(plants.pois)
+
+```
+
+
+\ 
+
+
+\begin{itemize}   
+\item[] The covariates that appear to have a significant effect on species counts are {\tt area}, {\tt nearest}, {\tt scruz}, and {\tt adjacent}. The standard errors for some of these covariates may be too low and making them significant.
+\end{itemize} 
+
+
+\ 
+
+
+
+
+\begin{itemize}   
+\item[i.] Evaluate the goodness-of-fit of this model.
+\end{itemize}
+
+
+\ 
+
+
+```{r}
+1-pchisq( 359.52  , 24  )
+```
+
+\ 
+
+\begin{itemize}   
+\item[] The model does not fit well.
+\end{itemize}
+
+
+
+\ 
+
+
+
+\begin{itemize}  
+\item[ii.] Examine the standardized residuals. Explain whether or not they suggest the presence of overdispersion? 
+\end{itemize}
+
+
+\ 
+
+
+```{r}
+par(mar=c(5.1,4.1,1.1, 1.1))
+plot(plants.pois$linear.predictors, rstandard(plants.pois), xlab=expression(hat(eta)), 
+     ylab = "Standardized residuals")
+abline(h=-2, col="red",lwd =2);abline(h=2, col="red",lwd =2)
+```
+
+\ 
+
+\begin{itemize}   
+\item[] The standardized residuals are distributed $r_i \sim N(0,1)$ so we expect about 95\% of the points to be within the bounds $\pm 2$ (the red lines). However, it is clear that many points are outside the two bounds which is suggesting the presence of overdispersion.
+\end{itemize}
+
+
+
+\ 
+
+
+\begin{itemize} 
+\item[iii.] Fit a negative binomial model with all five covariates on the log scale. Provide the point estimate and 95\% confidence interval for the dispersion parameter.  Which covariates appear to have a significant effect on species counts?
+\end{itemize}
+
+
+\ 
+
+
+```{r}
+head(plants)
+plants.nb = glm.nb(species ~ ., data=plants)
+summary(plants.nb)
+```
+
+
+\ 
+
+\begin{itemize}\item[]\begin{itemize}
+\item[]
+ Dispersion parameter: 
+ 
+ \hfil $\hat{\gamma} = \cfrac{1}{2.944} =  0.3396739$
+
+ 
+95\% CI: 
+
+ \hfil $\cfrac{1}{2.944 \pm 1.96(0.867)} =  (0.2153631, 0.8034194)$
+
+\end{itemize}
+
+\ 
+
+Now only the {\tt area} appears to have a significant effect on species counts.
+\end{itemize}
+
+
+
+\ 
+
+\begin{itemize}
+\item[iv.] Use a quasi-likelihood approach with an inflated quadratic function using all five covariates on the log scale. What is the estimated dispersion parameter?  Which covariates appear to have a significant effect on species counts?
+\end{itemize}
+
+
+\ 
+
+```{r}
+fit.quasi = glm(species ~  area+ elevation +  nearest + scruz + adjacent , 	data=plants, 
+  family=quasi(link="log", variance="mu^2"))
+summary(fit.quasi)
+```
+
+\ 
+
+\begin{itemize}\item[] 
+
+Dispersion parameter \( \displaystyle \hat{\phi} = \cfrac{1}{N-p}  \sum_i \cfrac{\left(y_i-\hat{\mu_i}\right)^2}{\hat{\mu_i}}=  0.5251162 \)  
+
+\ 
+
+
+Still, only the area appears to have a significant effect on species counts.
+\end{itemize}
+
+
+
+
+
+\ 
+
+\begin{itemize}
+\item[(b)] Calculate the pairwise sample correlation between the covariates on the log scale and comment on whether or not multicollinearity may be an issue.
+\end{itemize}
+
+\ 
+
+
+```{r}
+library(ggcorrplot,quietly=T);plant.cor<-cor(plants[,-1]);cor(plants[,-1])
+ggcorrplot(plant.cor, type = "lower",lab = T,	colors = c("#6D9EC1", "white", "#E46726"))
+```
+
+ \ 
+
+\begin{itemize}
+\item[] There is very high positive correlation between elevation and area, and high positive correlations between nearest and scruz. The high degree of multicollinearity among the predictor variables may be responsbile for larger estimated regression coefficients. It may also be responsible for inflated variability of the estimated coefficients; however with an overdispersed model this would seem less of a problem than the larger coefficients. A penalized regression or centering may be worthy of investigation here.
+\end{itemize}
+
+\ 
+
+\begin{itemize}
+\item[(c)] Perform stepwise selection for the Poisson model with all covariates on the log scale.
+\end{itemize}
+
+
+\ 
+
+```{r}
+rm(plant);plant<-read.table("Galapagos.txt",header=T);dat<-plant
+plant[plant== 0] <- .1; plant<-plant[,-1]; plant[,-1]<-log(plant[,-1]);head(plant,3)
+pois.null<-glm(species ~ 1,family=poisson, data=plant)
+pois.sat<-glm(species ~ . , family=poisson, data=plant)
+step(pois.null, scope=list(lower=pois.null, 	upper=pois.sat), direction="both",trace=0  )
+step.pois<-step(pois.null, scope=list(lower=pois.null, 	upper=pois.sat), direction="both",trace=0  )
+```
+
+
+\ 
+
+
+
+\begin{itemize} 
+\item[i.] Evaluate the goodness-of-fit of the selected Poisson model.
+\end{itemize} 
+
+\ 
+
+
+```{r}
+1-pchisq(239.6,25)
+```
+
+\ 
+
+\begin{itemize} 
+\item[] It is a poor fitting model.
+\end{itemize} 
+
+
+\ 
+
+\begin{itemize} 
+\item[ii.] Examine the standardized residuals and identify potential outliers.
+\end{itemize} 
+
+\ 
+
+
+\begin{itemize} 
+\item[] Based on this model the outliers are {\tt DaphneMinor}, {\tt Gardner1}, {\tt Marchena}, and {\tt SantaFe}. They have standardized residuals outside the range (-3,3) and are identified as blue + on the plot. The orange lines are at $\pm 2$ to show observations that close to being outliers. The red lines are at $\pm 3$, the values outside this range would be considered outliers.
+\end{itemize} 
+
+\ 
+
+```{r}
+a<-which(abs(rstandard(step.pois))< 3);b<-which(abs(rstandard(step.pois))> 3);dat[b,-c(5:6)] 
+par(mar=c(5.1,4.1,1.1, 1.1))
+plot(step.pois$linear.predictors[a], rstandard(step.pois)[a],ylim=c(-5,12),xlim=c(-.4,6.5))
+points(step.pois$linear.predictors[b], rstandard(step.pois)[b],pch="+",col="blue")
+abline(h=2, col="orange",lwd =2);abline(h=-2, col="orange",lwd =2)
+abline(h=3, col="red",lwd =2);abline(h=-3, col="red",lwd =2)
+text(step.pois$linear.predictors[b[-3]]+.15,  rstandard(step.pois)[b[-3]]-.4, 
+     labels=paste0(b[-3]), cex= 0.7)
+text(step.pois$linear.predictors[b[3]],  rstandard(step.pois)[b[3]]-.6, 
+     labels=paste0(b[3]), cex= 0.7)
+```
+
+
+\ 
+
+\begin{itemize}
+\item[(d)] Perform stepwise selection for the negative binomial model with all covariates on the log scale.
+\end{itemize}
+
+
+\ 
+
+
+
+\ 
+
+```{r, warning=FALSE}
+head(plant,3)
+nb.null<-glm.nb(species ~ 1, data=plant)
+nb.sat<-glm.nb(species ~ ., data=plant,maxit=100) ## Warning: glm.fit: algorithm did not converge
+step(nb.null, scope=list(lower=nb.null, 	upper=nb.sat), direction="both",trace=0  )
+step.nb<-step(nb.null, scope=list(lower=nb.null, 	upper=nb.sat), direction="both",trace=0  )
+```
+
+
+\ 
+
+
+
+\begin{itemize} 
+\item[i.] Evaluate the goodness-of-fit of the selected negative binomial model.
+\end{itemize} 
+
+\ 
+
+
+```{r}
+1-pchisq(32.604  , 28 )
+```
+
+\ 
+
+\begin{itemize} 
+\item[] It is an adequate fitting model.
+\end{itemize} 
+
+
+\ 
+
+\begin{itemize} 
+\item[ii.] Examine the standardized residuals and identify potential outliers.
+\end{itemize} 
+
+
+\ 
+
+\begin{itemize} 
+\item[ ] There are a few standardized residuals with absolute values near two, with one greater than two (-2.04). But aside from those cases on the edges, there are not any outliers in this model.
+\end{itemize} 
+
+\ 
+
+```{r}
+par(mar=c(5.1,4.1,1.1, 1.1))
+plot(step.nb$linear.predictors, rstandard(step.nb),ylim=c(-2.5,2.5),xlim=c(1.5,6.25))
+abline(h=2, col="red",lwd =2);abline(h=-2, col="red",lwd =2)
+```
+

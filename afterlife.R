@@ -44,8 +44,26 @@ datt$count<-as.numeric( c(dat[1,3:5],dat[2,3:5],dat[3,3:5] ,dat[4,3:5])  )
 datt$y<-rep(1:3,4)
 
 library(VGAM)
+
+dat
+datt<-dat
+datt$gender<-as.factor(c("F","M","F","M"))
+
+ 
+fit.fit<-vglm(cbind(y1,y2,y3) ~ gender+race, 
+	family=cumulative(parallel=T),data=dat) 
+summary(fit.fit)
+
+vglm(cbind(y1,y2,y3) ~ gender+race, family=cumulative(parallel=T),data=datt) 
+
+
 (vglm( y ~ gender+race, family=cumulative(parallel=T), data=dat.ungrp))
 vglm(cbind(y1,y2,y3) ~ gender+race, family=cumulative(parallel=T),data=dat) 
-polr(as.factor(y) ~ gender+race, weights = count ,  data=datt)
+polr(as.factor(y) ~ gender+race, weights = count ,  data=datt  )
 
 df.residual(polr(as.factor(y) ~ gender+race, weights = count ,  data=datt) )
+
+
+
+exp(3.0919441) / (1 +exp(3.0919441))
+exp(3.0919441  -0.7695648) / (1 +exp(3.0919441  -0.7695648))

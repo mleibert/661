@@ -1,0 +1,1300 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{}
+  \pretitle{\vspace{\droptitle}}
+  \posttitle{}
+  \author{}
+  \preauthor{}\postauthor{}
+  \date{}
+  \predate{}\postdate{}
+
+
+\begin{document}
+
+Michael Leibert
+
+~
+
+\subsection*{Part I:  Chronic respiratory disease [ 25 points ] }
+
+Table \ref{table:ex1} summarizes the data from an epidemiological study
+of chronic respiratory disease. Researchers collected information on
+subjects' exposure to general pollution (low or high), exposure to
+pollution in their jobs (yes or no), and their smoking status (current
+smoker, ex-smoker, non-smoker). The measured response is chronic
+respiratory disease status classified into four categories:
+
+\begin{itemize}
+\item 1 -- no symptoms \  
+\item 2 -- cough or phlegm less than 3 months a year \ 
+\item 3 -- cough or phlegm more than 3 months a year \
+\item 4 -- cough and phlegm plus shortness of breath more than 3 months a year \ 
+\end{itemize}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{cccrrrrr} \hline
+\\[-.9 em]
+ &  &  &  \multicolumn{4}{c}{\bf Response level}  & \\[.2em] \cline{4-7}
+ \\[-.9 em]
+ Air pollution & Job exposure & Smoking status & 1 & 2 & 3 & 4 & Total \\[.2em] \hline 
+ \\[-.9 em]
+Low & No & Non & 158 & 9 & 5 & 0 & 172\\[.2em]
+  &  &  Ex & 167 & 19 & 5 & 3 & 194 \\[.2em] 
+  &  &  Current & 307 & 102 & 83 & 68 & 560 \\[.2em] \cline{3-8}
+  \\[-.9 em]
+  &  Yes & Non & 26 & 5 & 5 & 1 & 37 \\[.2em]
+   &  & Ex & 38 & 12 & 4 & 4 & 58 \\[.2em]
+   &  &  Current &  94 & 48 & 46  & 60 & 248 \\[.2em] \hline
+   \\[-.8 em]
+High & No & Non & 94 & 7 & 5 & 1 & 107 \\[.2em]
+  &  &  Ex & 67 & 8 & 4 & 3 & 82 \\[.2em] 
+  & & Current &  184 & 65  & 33 & 36 & 318 \\[.2em] \cline{3-8}
+  \\[-.9 em]
+  & Yes & Non & 32 & 3 & 6 & 1 & 42 \\[.2em]
+   &  & Ex & 39 & 11 & 4 & 2 & 56 \\[.2em] 
+   &  &  Current & 77 & 48 & 39 & 51 & 215 \\[.2em] \hline
+  \end{tabular}
+  \caption{Chronic respiratory disease data} \label{table:ex1}
+  \end{center}
+  \end{table}
+
+\vspace*{3mm}
+
+\begin{itemize}
+\item[1.] Fit a proportional odds cumulative logit model with pairwise interaction effects for all covariates and assess its goodness of fit. Use low air pollution, no job exposure and non-smoker as reference group.
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(}\DataTypeTok{list =} \KeywordTok{ls}\NormalTok{());}\KeywordTok{setwd}\NormalTok{(}\StringTok{"G:}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{math}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{661"}\NormalTok{); }\KeywordTok{options}\NormalTok{(}\DataTypeTok{scipen=}\DecValTok{999}\NormalTok{);  }\KeywordTok{library}\NormalTok{(VGAM,}\DataTypeTok{quietly=}\NormalTok{T)}
+\NormalTok{tempp<-}\KeywordTok{data.frame}\NormalTok{( }\KeywordTok{rep}\NormalTok{( }\StringTok{"low"}\NormalTok{ ,}\DecValTok{6}\NormalTok{ ) );}\KeywordTok{names}\NormalTok{(tempp)<-}\StringTok{"pollution"}
+\NormalTok{tempp}\OperatorTok{$}\NormalTok{exposure<-}\StringTok{ }\KeywordTok{c}\NormalTok{( }\KeywordTok{rep}\NormalTok{( }\StringTok{"no"}\NormalTok{ ,}\DecValTok{3}\NormalTok{ ),  }\KeywordTok{rep}\NormalTok{( }\StringTok{"yes"}\NormalTok{ ,}\DecValTok{3}\NormalTok{ ))}
+\NormalTok{tempp}\OperatorTok{$}\NormalTok{smoker<-}\StringTok{  }\KeywordTok{rep}\NormalTok{( }\KeywordTok{c}\NormalTok{(}\StringTok{"non"}\NormalTok{,}\StringTok{"ex"}\NormalTok{,}\StringTok{"current"}\NormalTok{) ,}\DecValTok{2}\NormalTok{ ) }
+\NormalTok{mat<-}\KeywordTok{matrix}\NormalTok{(}\OtherTok{NA}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{4}\NormalTok{)}
+\NormalTok{mat[}\DecValTok{1}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{158}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{0}\NormalTok{ );mat[}\DecValTok{2}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{167}\NormalTok{ ,}\DecValTok{19}\NormalTok{ , }\DecValTok{5}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\NormalTok{mat[}\DecValTok{3}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{307}\NormalTok{,}\DecValTok{102}\NormalTok{,}\DecValTok{83}\NormalTok{ ,}\DecValTok{68}\NormalTok{);mat[}\DecValTok{4}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{26}\NormalTok{, }\DecValTok{5}\NormalTok{ ,}\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{mat[}\DecValTok{5}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{38}\NormalTok{, }\DecValTok{12}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{ );mat[}\DecValTok{6}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{94}\NormalTok{, }\DecValTok{48}\NormalTok{, }\DecValTok{46}\NormalTok{, }\DecValTok{60}\NormalTok{ )}
+\NormalTok{cough<-}\KeywordTok{cbind}\NormalTok{(tempp,mat); }\KeywordTok{names}\NormalTok{(cough)[ }\DecValTok{4}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(cough)]<-}\KeywordTok{paste0}\NormalTok{(}\StringTok{"Y"}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{)}
+
+\NormalTok{tempp<-}\KeywordTok{data.frame}\NormalTok{( }\KeywordTok{rep}\NormalTok{( }\StringTok{"high"}\NormalTok{ ,}\DecValTok{6}\NormalTok{ ) );}\KeywordTok{names}\NormalTok{(tempp)<-}\StringTok{"pollution"}
+\NormalTok{tempp}\OperatorTok{$}\NormalTok{exposure<-}\StringTok{ }\KeywordTok{c}\NormalTok{( }\KeywordTok{rep}\NormalTok{( }\StringTok{"no"}\NormalTok{ ,}\DecValTok{3}\NormalTok{ ),  }\KeywordTok{rep}\NormalTok{( }\StringTok{"yes"}\NormalTok{ ,}\DecValTok{3}\NormalTok{ ))}
+\NormalTok{tempp}\OperatorTok{$}\NormalTok{smoker<-}\StringTok{  }\KeywordTok{rep}\NormalTok{( }\KeywordTok{c}\NormalTok{(}\StringTok{"non"}\NormalTok{,}\StringTok{"ex"}\NormalTok{,}\StringTok{"current"}\NormalTok{) ,}\DecValTok{2}\NormalTok{ ) }
+\NormalTok{mat<-}\KeywordTok{matrix}\NormalTok{(}\OtherTok{NA}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{4}\NormalTok{)}
+\NormalTok{mat[}\DecValTok{1}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{94}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{5}\NormalTok{ ,}\DecValTok{1}\NormalTok{ ); mat[}\DecValTok{2}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{67}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{ ,}\DecValTok{3}\NormalTok{)}
+\NormalTok{mat[}\DecValTok{3}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{184}\NormalTok{, }\DecValTok{65}\NormalTok{, }\DecValTok{33}\NormalTok{, }\DecValTok{36}\NormalTok{); mat[}\DecValTok{4}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{32}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{mat[}\DecValTok{5}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{39}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{4}\NormalTok{ ,}\DecValTok{2}\NormalTok{); mat[}\DecValTok{6}\NormalTok{,]<-}\KeywordTok{c}\NormalTok{(}\DecValTok{77}\NormalTok{, }\DecValTok{48}\NormalTok{, }\DecValTok{39}\NormalTok{, }\DecValTok{51}\NormalTok{)}
+\NormalTok{tempp<-}\KeywordTok{cbind}\NormalTok{(tempp,mat); }\KeywordTok{names}\NormalTok{(tempp)[ }\DecValTok{4}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(tempp)]<-}\KeywordTok{paste0}\NormalTok{(}\StringTok{"Y"}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{)}
+\NormalTok{cough<-}\KeywordTok{rbind}\NormalTok{(cough,tempp)}
+\NormalTok{cough}\OperatorTok{$}\NormalTok{smoker<-}\KeywordTok{relevel}\NormalTok{(}\KeywordTok{as.factor}\NormalTok{(cough}\OperatorTok{$}\NormalTok{smoker), }\DataTypeTok{ref=}\StringTok{"non"}\NormalTok{)}
+\NormalTok{cough}\OperatorTok{$}\NormalTok{exposure<-}\KeywordTok{relevel}\NormalTok{(}\KeywordTok{as.factor}\NormalTok{(cough}\OperatorTok{$}\NormalTok{exposure), }\DataTypeTok{ref=}\StringTok{"no"}\NormalTok{)}
+\NormalTok{cough}\OperatorTok{$}\NormalTok{pollution<-}\KeywordTok{relevel}\NormalTok{(}\KeywordTok{as.factor}\NormalTok{(cough}\OperatorTok{$}\NormalTok{pollution), }\DataTypeTok{ref=}\StringTok{"low"}\NormalTok{);}\KeywordTok{rm}\NormalTok{(tempp)}
+
+\NormalTok{cough}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    pollution exposure  smoker  Y1  Y2 Y3 Y4
+## 1        low       no     non 158   9  5  0
+## 2        low       no      ex 167  19  5  3
+## 3        low       no current 307 102 83 68
+## 4        low      yes     non  26   5  5  1
+## 5        low      yes      ex  38  12  4  4
+## 6        low      yes current  94  48 46 60
+## 7       high       no     non  94   7  5  1
+## 8       high       no      ex  67   8  4  3
+## 9       high       no current 184  65 33 36
+## 10      high      yes     non  32   3  6  1
+## 11      high      yes      ex  39  11  4  2
+## 12      high      yes current  77  48 39 51
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(cough)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    12 obs. of  7 variables:
+##  $ pollution: Factor w/ 2 levels "low","high": 1 1 1 1 1 1 2 2 2 2 ...
+##  $ exposure : Factor w/ 2 levels "no","yes": 1 1 1 2 2 2 1 1 1 2 ...
+##  $ smoker   : Factor w/ 3 levels "non","current",..: 1 3 2 1 3 2 1 3 2 1 ...
+##  $ Y1       : num  158 167 307 26 38 94 94 67 184 32 ...
+##  $ Y2       : num  9 19 102 5 12 48 7 8 65 3 ...
+##  $ Y3       : num  5 5 83 5 4 46 5 4 33 6 ...
+##  $ Y4       : num  0 3 68 1 4 60 1 3 36 1 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{inter.fit<-}\KeywordTok{vglm}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(Y1,Y2,Y3,Y4) }\OperatorTok{~}\StringTok{ }\NormalTok{pollution }\OperatorTok{+}\StringTok{ }\NormalTok{exposure }\OperatorTok{+}\StringTok{ }\NormalTok{smoker }\OperatorTok{+}\StringTok{ }\NormalTok{smoker}\OperatorTok{*}\NormalTok{exposure }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{smoker}\OperatorTok{*}\NormalTok{pollution}\OperatorTok{+}\NormalTok{pollution}\OperatorTok{*}\NormalTok{exposure,    }\DataTypeTok{family=}\KeywordTok{cumulative}\NormalTok{(}\DataTypeTok{parallel=}\NormalTok{T),}\DataTypeTok{data=}\NormalTok{cough)}
+\KeywordTok{summary}\NormalTok{(inter.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## vglm(formula = cbind(Y1, Y2, Y3, Y4) ~ pollution + exposure + 
+##     smoker + smoker * exposure + smoker * pollution + pollution * 
+##     exposure, family = cumulative(parallel = T), data = cough)
+## 
+## 
+## Pearson residuals:
+##                   Min      1Q   Median      3Q   Max
+## logit(P[Y<=1]) -1.044 -0.5076 -0.30835 0.08112 1.079
+## logit(P[Y<=2]) -1.398 -0.9158  0.02686 0.79555 1.389
+## logit(P[Y<=3]) -0.708 -0.3029  0.41987 1.05726 1.739
+## 
+## Coefficients: 
+##                              Estimate Std. Error z value
+## (Intercept):1                2.311609   0.244777   9.444
+## (Intercept):2                3.191984   0.248520  12.844
+## (Intercept):3                4.114690   0.254066  16.195
+## pollutionhigh               -0.172089   0.327883  -0.525
+## exposureyes                 -1.217546   0.339051  -3.591
+## smokercurrent               -2.113864   0.254365  -8.310
+## smokerex                    -0.547229   0.306770  -1.784
+## exposureyes:smokercurrent    0.405182   0.342715   1.182
+## exposureyes:smokerex         0.296951   0.419860   0.707
+## pollutionhigh:smokercurrent  0.260242   0.335750   0.775
+## pollutionhigh:smokerex       0.075304   0.416457   0.181
+## pollutionhigh:exposureyes   -0.003072   0.191241  -0.016
+##                                         Pr(>|z|)    
+## (Intercept):1               < 0.0000000000000002 ***
+## (Intercept):2               < 0.0000000000000002 ***
+## (Intercept):3               < 0.0000000000000002 ***
+## pollutionhigh                           0.599688    
+## exposureyes                             0.000329 ***
+## smokercurrent               < 0.0000000000000002 ***
+## smokerex                                0.074450 .  
+## exposureyes:smokercurrent               0.237098    
+## exposureyes:smokerex                    0.479404    
+## pollutionhigh:smokercurrent             0.438277    
+## pollutionhigh:smokerex                  0.856509    
+## pollutionhigh:exposureyes               0.987185    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Number of linear predictors:  3 
+## 
+## Names of linear predictors: 
+## logit(P[Y<=1]), logit(P[Y<=2]), logit(P[Y<=3])
+## 
+## Residual deviance: 27.2964 on 24 degrees of freedom
+## 
+## Log-likelihood: -84.4742 on 24 degrees of freedom
+## 
+## Number of iterations: 4 
+## 
+## No Hauck-Donner effect found in any of the estimates
+## 
+## Exponentiated coefficients:
+##               pollutionhigh                 exposureyes 
+##                   0.8419039                   0.2959556 
+##               smokercurrent                    smokerex 
+##                   0.1207705                   0.5785508 
+##   exposureyes:smokercurrent        exposureyes:smokerex 
+##                   1.4995756                   1.3457487 
+## pollutionhigh:smokercurrent      pollutionhigh:smokerex 
+##                   1.2972434                   1.0782114 
+##   pollutionhigh:exposureyes 
+##                   0.9969330
+\end{verbatim}
+
+~
+
+\begin{itemize}
+\item[] The goodness-of-fit test:
+
+\ 
+
+\hfil $H_0$: model fits the data well \hspace{.15 cm} vs.  \hspace{.15 cm} $H_1$: model does not fit the data well.
+
+\ 
+
+The current (interaction) model has $df=36-12=24$, $\Big((4-1)\cdot 12 = 36\Big)$ and the residual deviance is 27.2964, which leads to a $p$-value = 0.2908274. The model provides an adequate fit.
+
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{-}\KeywordTok{pchisq}\NormalTok{(}\FloatTok{27.29641}\NormalTok{,}\DecValTok{24}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2908274
+\end{verbatim}
+
+~
+
+\begin{itemize}
+\item[2.] Use a likelihood ratio test to check the proportional odds assumption in the model above.
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[] We use a likelihood ratio test to check the proportional odds assumption in the model above. We can test the proportional odds assumption:
+
+\ 
+
+\hfil $H_0$: same slope for all cumulative logits \hspace{.15 cm} vs.  \hspace{.15 cm} $H_1$: different slopes
+
+\ 
+
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{noprop.fit<-}\KeywordTok{vglm}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(Y1,Y2,Y3,Y4) }\OperatorTok{~}\StringTok{ }\NormalTok{pollution }\OperatorTok{+}\StringTok{ }\NormalTok{exposure }\OperatorTok{+}\StringTok{ }\NormalTok{smoker }\OperatorTok{+}\StringTok{   }\NormalTok{smoker}\OperatorTok{*}\NormalTok{exposure }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\NormalTok{smoker}\OperatorTok{*}\NormalTok{pollution}\OperatorTok{+}\NormalTok{pollution}\OperatorTok{*}\NormalTok{exposure , }\DataTypeTok{family=}\KeywordTok{cumulative}\NormalTok{(}\DataTypeTok{parallel=}\NormalTok{F),}\DataTypeTok{data=}\NormalTok{cough)}
+
+\DecValTok{1}\OperatorTok{-}\KeywordTok{pchisq}\NormalTok{(}\OperatorTok{-}\DecValTok{2}\OperatorTok{*}\NormalTok{(}\KeywordTok{logLik}\NormalTok{(inter.fit)}\OperatorTok{-}\KeywordTok{logLik}\NormalTok{(noprop.fit)), }\DataTypeTok{df=}\KeywordTok{df.residual}\NormalTok{(inter.fit)}\OperatorTok{-}\KeywordTok{df.residual}\NormalTok{((noprop.fit)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2369979
+\end{verbatim}
+
+~
+
+\begin{itemize}
+\item[] We fail to reject the null and can assume a proportional odds structure.
+
+\ 
+
+\end{itemize}
+
+\begin{itemize}
+\item[3.] Use a likelihood ratio test to determine whether to include or not the interaction terms in the proportional odds cumulative logit model.
+\end{itemize}
+
+~
+
+\begin{itemize} \item[] 
+
+\hfil $H_0$: model with main effects fits as well as model with interaction effects
+
+\ 
+
+We can use a likelihood ratio test to compare this model to the main effects model, which will have an approximate chi-square distribution with $df = 29-24 = 5$. This is equivalent to evaluating the change in deviance between the two models:
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{main.fit<-}\KeywordTok{vglm}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(Y1,Y2,Y3,Y4) }\OperatorTok{~}\StringTok{ }\NormalTok{pollution }\OperatorTok{+}\StringTok{ }\NormalTok{exposure }\OperatorTok{+}\StringTok{ }\NormalTok{smoker,}
+               \DataTypeTok{family=}\KeywordTok{cumulative}\NormalTok{(}\DataTypeTok{parallel=}\NormalTok{T),}\DataTypeTok{data=}\NormalTok{cough)}
+\KeywordTok{deviance}\NormalTok{(main.fit)}\OperatorTok{-}\KeywordTok{deviance}\NormalTok{(inter.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.700513
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{df.residual}\NormalTok{(main.fit); }\KeywordTok{df.residual}\NormalTok{(inter.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 29
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 24
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{-}\KeywordTok{pchisq}\NormalTok{(}\KeywordTok{deviance}\NormalTok{(main.fit)}\OperatorTok{-}\KeywordTok{deviance}\NormalTok{(inter.fit), }\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7460399
+\end{verbatim}
+
+~
+
+\begin{itemize}
+\item[] We fail to reject $H_0$ at $\alpha = 0.05$, thus the model with interaction effects doesn't provide a better fit compared to the main effects model.
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[4.] In the following questions, use the main effects cumulative logit proportional odds model:
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(main.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## vglm(formula = cbind(Y1, Y2, Y3, Y4) ~ pollution + exposure + 
+##     smoker, family = cumulative(parallel = T), data = cough)
+## 
+## 
+## Pearson residuals:
+##                    Min      1Q   Median      3Q   Max
+## logit(P[Y<=1]) -0.9786 -0.6485 -0.06329 0.09382 1.164
+## logit(P[Y<=2]) -2.0789 -0.9668  0.23074 0.77460 1.502
+## logit(P[Y<=3]) -0.4941 -0.3384  0.32979 1.04577 1.773
+## 
+## Coefficients: 
+##               Estimate Std. Error z value            Pr(>|z|)    
+## (Intercept):1  2.08844    0.16329  12.790 <0.0000000000000002 ***
+## (Intercept):2  2.96964    0.16927  17.544 <0.0000000000000002 ***
+## (Intercept):3  3.89385    0.17786  21.893 <0.0000000000000002 ***
+## pollutionhigh  0.03929    0.09370   0.419              0.6750    
+## exposureyes   -0.86476    0.09546  -9.059 <0.0000000000000002 ***
+## smokercurrent -1.85271    0.16503 -11.227 <0.0000000000000002 ***
+## smokerex      -0.40003    0.20187  -1.982              0.0475 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Number of linear predictors:  3 
+## 
+## Names of linear predictors: 
+## logit(P[Y<=1]), logit(P[Y<=2]), logit(P[Y<=3])
+## 
+## Residual deviance: 29.9969 on 29 degrees of freedom
+## 
+## Log-likelihood: -85.8245 on 29 degrees of freedom
+## 
+## Number of iterations: 4 
+## 
+## No Hauck-Donner effect found in any of the estimates
+## 
+## Exponentiated coefficients:
+## pollutionhigh   exposureyes smokercurrent      smokerex 
+##     1.0400744     0.4211522     0.1568115     0.6703009
+\end{verbatim}
+
+~
+
+\begin{itemize}
+\item[(a)] Interpret each of the three intercepts.
+
+
+\ 
+
+ 
+$\hat{\alpha}_1 = 2.08844$: Is the estimated baseline log odds of falling into category 1 (no symptoms) versus all other categories for individuals with exposure to low air pollution, exposure to low job pollution, and who are non-smokers.
+
+\ 
+ 
+ $\hat{\alpha}_2 = 2.96964$: Is the estimated baseline log odds of falling into either category 1 (no symptoms) or category 2 (cough or phlegm less than 3 months a year) versus all other categories for individuals with exposure to low air pollution, exposure to low job pollution, and who are non-smokers.
+
+\ 
+ 
+ $\hat{\alpha}_3 = 3.89385$: Is the estimated baseline log odds of falling into either category 1 (no symptoms), category 2 (cough or phlegm less than 3 months a year), category 3 (cough or phlegm more than 3 months a year) versus all other categories for individuals with exposure to low air pollution, exposure to low job pollution, and who are non-smokers.
+ 
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[(b)] Which variables appear to be associated with chronic respiratory disease?  Interpret the regression coefficients for the covariates with significant association. 
+
+ \ 
+ 
+ The variables that appear to be associate with chronic respiratory disease are {\bf exposure to pollution in their jobs}, {\bf smoking status: current}, and {\bf smoking status: ex-smoker}.
+ 
+ \ 
+ 
+ Controlling for air pollution and smoking status, the estimated log-odds of a response in the category 1 direction rather than the category 4 direction for individuals who are exposed to pollution in their jobs is 0.86476 lower than individuals who are not exposed to pollution in their jobs. (i.e., the estimated odds ratio for individuals who are exposed to pollution in their jobs versus individuals who are not exposed to pollution in their jobs is $\exp(-0.86476)$ = 0.4211526). This indicates, controlling for pollution and smoking status, individuals who are exposed to pollution are more likely to have worse symptom outcomes.
+ 
+ 
+ 
+\ 
+
+ Controlling for air pollution and job pollution, the estimated log-odds of a response in the category 1 direction rather than the category 4 direction for current smokers is 1.85271 lower than non-smokers. (i.e., the estimated odds ratio for smokers versus non-smokers is $\exp(-1.85271)$ = 0.1568116). This indicates, controlling for pollution and job pollution, individuals who are smokers are much more  likely to have worse symptom outcomes.
+
+ 
+ 
+\ 
+
+ Controlling for air pollution and job pollution, the estimated log-odds of a response in the category 1 direction rather than the category 4 direction for ex-smokers is 0.40003 lower than non-smokers. (i.e., the estimated odds ratio for smokers versus non-smokers is $\exp(-0.40003)$ = 0.6702999). This indicates, controlling for pollution and job pollution, individuals who are ex-smokers are more likely to have worse symptom outcomes.
+
+
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[(c)]  What are the estimated probabilities of falling in each of the different response categories for a current smoker with job exposure to pollution and high general air pollution exposure?  Show the details of your calculations manually.
+
+\ 
+
+
+ \begin{align*}
+     \log \left( \cfrac{\hat{P}\left(y_i \leq 1\right)}{1-\hat{P}\left(y_i \leq 1\right)} \right) &=
+        2.08843944  +  0.03929225   -0.86476105   -1.85271076 = -0.5897401 \\
+        \hat{P}\left(y_i \leq 1\right) &= \cfrac{\exp(-0.5897401)}{1+\exp(-0.5897401)} = 0.3566945 \\
+        \\
+    \log \left( \cfrac{\hat{P}\left(y_i \leq 2\right)}{1-\hat{P}\left(y_i \leq 2\right)} \right) &=
+        2.96964165 +   0.03929225   -0.86476105   -1.85271076 = 0.2914621 \\
+        \hat{P}\left(y_i \leq 2\right) &= \cfrac{\exp(0.291462)}{1+\exp(0.291462)} = 0.572354 \\ 
+        \hat{P}\left(y_i = 2\right) &=   \hat{P}\left(y_i \leq 2\right) -   \hat{P}\left(y_i \leq 1\right) =
+        0.572354 - 0.3566945 = 0.2156595 \\ 
+                \\
+    \log \left( \cfrac{\hat{P}\left(y_i \leq 3\right)}{1-\hat{P}\left(y_i \leq 3\right)} \right) &=
+       3.89385000  +   0.03929225   -0.86476105   -1.85271076 = 1.215671 \\
+        \hat{P}\left(y_i \leq 3\right) &= \cfrac{\exp(1.21567)}{1+\exp(1.21567)} =  0.7713007 \\ 
+        \hat{P}\left(y_i = 3\right) &=   \hat{P}\left(y_i \leq 3\right) -   \hat{P}\left(y_i \leq 2\right) =
+        0.7713007 - 0.572354  =0.1989467 \\ 
+        \\
+      \hat{P}\left(y_i = 4\right) &=  1-   \hat{P}\left(y_i \leq 3\right) =    1-    0.7713007   = 0.2286993
+ \end{align*} 
+ 
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[(d)]  For each covariate pattern, provide the predicted number of people falling in each of the response levels.
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{coughing<-cough;coughing}\OperatorTok{$}\NormalTok{tY<-}\KeywordTok{rowSums}\NormalTok{(coughing[,}\DecValTok{4}\OperatorTok{:}\DecValTok{7}\NormalTok{]); }
+\NormalTok{coughing<-}\KeywordTok{cbind}\NormalTok{(coughing,}\KeywordTok{round}\NormalTok{(}\KeywordTok{predict}\NormalTok{(main.fit,}\DataTypeTok{type=}\StringTok{"response"}\NormalTok{),}\DecValTok{3}\NormalTok{))}
+\NormalTok{coughing; }\KeywordTok{names}\NormalTok{(coughing)[(}\KeywordTok{ncol}\NormalTok{(coughing)}\OperatorTok{-}\DecValTok{3}\NormalTok{)}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(coughing)]<-}\KeywordTok{paste0}\NormalTok{(}\StringTok{"pi"}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    pollution exposure  smoker  Y1  Y2 Y3 Y4  tY    Y1    Y2    Y3    Y4
+## 1        low       no     non 158   9  5  0 172 0.890 0.061 0.029 0.020
+## 2        low       no      ex 167  19  5  3 194 0.844 0.085 0.042 0.029
+## 3        low       no current 307 102 83 68 560 0.559 0.195 0.132 0.115
+## 4        low      yes     non  26   5  5  1  37 0.773 0.119 0.062 0.046
+## 5        low      yes      ex  38  12  4  4  58 0.695 0.151 0.087 0.067
+## 6        low      yes current  94  48 46 60 248 0.348 0.215 0.202 0.236
+## 7       high       no     non  94   7  5  1 107 0.894 0.059 0.028 0.019
+## 8       high       no      ex  67   8  4  3  82 0.849 0.082 0.040 0.028
+## 9       high       no current 184  65 33 36 318 0.568 0.192 0.128 0.111
+## 10      high      yes     non  32   3  6  1  42 0.780 0.116 0.060 0.044
+## 11      high      yes      ex  39  11  4  2  56 0.703 0.148 0.084 0.065
+## 12      high      yes current  77  48 39 51 215 0.357 0.216 0.199 0.229
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{( }\KeywordTok{cbind}\NormalTok{(coughing, coughing[,(}\KeywordTok{ncol}\NormalTok{(coughing)}\OperatorTok{-}\DecValTok{3}\NormalTok{)}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(coughing)]}\OperatorTok{*}
+\StringTok{    }\NormalTok{coughing[,(}\KeywordTok{ncol}\NormalTok{(coughing)}\OperatorTok{-}\DecValTok{4}\NormalTok{)] ) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    pollution exposure  smoker  Y1  Y2 Y3 Y4  tY   pi1   pi2   pi3   pi4
+## 1        low       no     non 158   9  5  0 172 0.890 0.061 0.029 0.020
+## 2        low       no      ex 167  19  5  3 194 0.844 0.085 0.042 0.029
+## 3        low       no current 307 102 83 68 560 0.559 0.195 0.132 0.115
+## 4        low      yes     non  26   5  5  1  37 0.773 0.119 0.062 0.046
+## 5        low      yes      ex  38  12  4  4  58 0.695 0.151 0.087 0.067
+## 6        low      yes current  94  48 46 60 248 0.348 0.215 0.202 0.236
+## 7       high       no     non  94   7  5  1 107 0.894 0.059 0.028 0.019
+## 8       high       no      ex  67   8  4  3  82 0.849 0.082 0.040 0.028
+## 9       high       no current 184  65 33 36 318 0.568 0.192 0.128 0.111
+## 10      high      yes     non  32   3  6  1  42 0.780 0.116 0.060 0.044
+## 11      high      yes      ex  39  11  4  2  56 0.703 0.148 0.084 0.065
+## 12      high      yes current  77  48 39 51 215 0.357 0.216 0.199 0.229
+##        pi1     pi2    pi3    pi4
+## 1  153.080  10.492  4.988  3.440
+## 2  163.736  16.490  8.148  5.626
+## 3  313.040 109.200 73.920 64.400
+## 4   28.601   4.403  2.294  1.702
+## 5   40.310   8.758  5.046  3.886
+## 6   86.304  53.320 50.096 58.528
+## 7   95.658   6.313  2.996  2.033
+## 8   69.618   6.724  3.280  2.296
+## 9  180.624  61.056 40.704 35.298
+## 10  32.760   4.872  2.520  1.848
+## 11  39.368   8.288  4.704  3.640
+## 12  76.755  46.440 42.785 49.235
+\end{verbatim}
+
+~
+
+\newpage
+
+\subsection*{Part II:  Number of plant species in the Galápagos [ 25 points ] }
+
+The 30 islands in the Galápagos archipelago have long been studied by
+botanists, zoologists and biologists to learn about species survival and
+the process of natural selection in an almost experimental setting. The
+islands are essentially uninhabited by humans and all experience the
+same surrounding climate. Yet some species of birds, plants and mammals
+thrive on only a few or even just one of the islands. In addition, some
+islands have a wide variety of species, while others are not nearly as
+biodiverse. We are interested in investigating which variables may be
+related to the number of plant species in the archipelago islands.
+\textbackslash{}
+
+The data \verb|Galapagos.txt| posted on Canvas contain information on
+plant species on the Galápagos islands. The variables in the data
+correspond to
+
+\begin{itemize}
+\item {\tt island} -- name of island  \ 
+\item {\tt species} -- island total observed plant species count  \ 
+\item {\tt endemics} -- island endemic plant species count  \ 
+\item {\tt area} -- island area (km$^2$)  \ 
+\item {\tt elevation} -- island elevation (meters)  \ 
+\item {\tt nearest} -- distance in km from the island to its nearest neighbor (adjacent island)  \ 
+\item {\tt scruz} -- distance in km from the island to the largest island (Santa Cruz)  \ 
+\item {\tt adjacent} -- area of the adjacent island \\
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[(1)] {\bf Exploratory data analysis}
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[(a)] Provide a histogram and summary statistics for the observed counts of total plant species.  Discuss the distribution.  
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(}\DataTypeTok{list =} \KeywordTok{ls}\NormalTok{()); }\KeywordTok{setwd}\NormalTok{(}\StringTok{"G:}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{math}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{661"}\NormalTok{); }\KeywordTok{options}\NormalTok{(}\DataTypeTok{scipen=}\DecValTok{999}\NormalTok{);}\KeywordTok{require}\NormalTok{(ggplot2,}\DataTypeTok{quietly=}\NormalTok{T)}
+\NormalTok{plant<-}\KeywordTok{read.table}\NormalTok{(}\StringTok{"Galapagos.txt"}\NormalTok{,}\DataTypeTok{header=}\NormalTok{T);}\KeywordTok{source}\NormalTok{(}\StringTok{"multiplot.r"}\NormalTok{)  }
+
+\KeywordTok{ggplot}\NormalTok{(plant, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{species))}\OperatorTok{+}\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{color=}\StringTok{"darkblue"}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"lightblue"}\NormalTok{,}\DataTypeTok{bins=}\DecValTok{30}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(plant}\OperatorTok{$}\NormalTok{species);}\KeywordTok{IQR}\NormalTok{(plant}\OperatorTok{$}\NormalTok{species)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    2.00   13.00   42.00   85.23   96.00  444.00
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 83
+\end{verbatim}
+
+~
+
+\begin{itemize} \item[] 
+The distribution of the counts is skewed to the right with a large proportion of islands having small counts. More than half of the islands have counts of species less than 50, with roughly 75\% of the islands having less than 100. The median species count for the islands is 85.23333 (median = 42) and a standard deviation of 114.6331 (IQR = 83). The mean and the standard deviation are being heavily influenced by the islands that have disproportionately large counts.
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[(b)] Create plots of the logarithm of the observed counts of total plant species, $\log$({\tt species}), versus each of the five potential covariates: {\tt area, elevation, nearest, scruz, adjacent}. 
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat<-plant[,}\KeywordTok{c}\NormalTok{(}\KeywordTok{which}\NormalTok{(}\KeywordTok{names}\NormalTok{(plant) }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"species"}\NormalTok{,}\StringTok{"area"}\NormalTok{, }\StringTok{"elevation"}\NormalTok{,  }\StringTok{"nearest"}\NormalTok{,  }
+  \StringTok{"scruz"}\NormalTok{, }\StringTok{"adjacent"}\NormalTok{)))];  gglist<-}\KeywordTok{list}\NormalTok{();dat[,}\DecValTok{1}\NormalTok{]<-}\KeywordTok{log}\NormalTok{(dat[,}\DecValTok{1}\NormalTok{])}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{2}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(dat))\{  gglist[[i]] <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(dat, }\KeywordTok{aes_string}\NormalTok{(}\DataTypeTok{x=}\StringTok{"species"}\NormalTok{,}\DataTypeTok{y=}\KeywordTok{colnames}\NormalTok{(dat)[i]}
+\NormalTok{     )) }\OperatorTok{+}\StringTok{   }\KeywordTok{geom_point}\NormalTok{()    \}}
+\KeywordTok{multiplot}\NormalTok{(gglist[[}\DecValTok{2}\NormalTok{]], gglist[[}\DecValTok{3}\NormalTok{]], gglist[[}\DecValTok{4}\NormalTok{]], gglist[[}\DecValTok{5}\NormalTok{]],gglist[[}\DecValTok{6}\NormalTok{]],    }\DataTypeTok{cols=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+~
+
+\begin{itemize}
+\item[(c)] Repeat the previous question using the logarithm of each of the covariates. Which variables appear to be related to $\log$({\tt species})?\\
+{\bf Caution:} Always check for any zero value before using a logarithm transformation. A quick fix is to add a small non-zero number, e.g., consider $x+0.1$ instead of $x$.
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat[dat}\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{] <-}\StringTok{ }\NormalTok{.}\DecValTok{1}\NormalTok{;dat[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]<-}\KeywordTok{log}\NormalTok{(dat[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]);}\KeywordTok{head}\NormalTok{(dat,}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    species       area elevation    nearest      scruz   adjacent
+## 1 4.060443  3.2224694  5.846439 -0.5108256 -0.5108256  0.6097656
+## 2 3.433987  0.2151114  4.691348 -0.5108256  3.2695689  6.3497157
+## 3 1.098612 -1.5606477  4.736198  1.0296194  4.0724397 -0.2484614
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{2}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(dat))\{  gglist[[}\DecValTok{5}\OperatorTok{+}\NormalTok{i]] <-}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(dat, }\KeywordTok{aes_string}\NormalTok{(}\DataTypeTok{x=}\StringTok{"species"}\NormalTok{,}\DataTypeTok{y=}\KeywordTok{colnames}\NormalTok{(dat)[i]  )) }\OperatorTok{+}\StringTok{   }\KeywordTok{geom_point}\NormalTok{()    \}}
+\KeywordTok{multiplot}\NormalTok{(gglist[[}\DecValTok{2}\OperatorTok{+}\DecValTok{5}\NormalTok{]], gglist[[}\DecValTok{3}\OperatorTok{+}\DecValTok{5}\NormalTok{]], gglist[[}\DecValTok{4}\OperatorTok{+}\DecValTok{5}\NormalTok{]], gglist[[}\DecValTok{5}\OperatorTok{+}\DecValTok{5}\NormalTok{]],}
+\NormalTok{    gglist[[}\DecValTok{5}\OperatorTok{+}\DecValTok{6}\NormalTok{]],   }\DataTypeTok{cols=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+~
+
+\begin{itemize} \item[] 
+The variables appear to be related to {\tt log(species)} are {\tt area} and {\tt elevation}.
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[2.] {\bf Model building \& diagnostics}
+\end{itemize}
+
+\begin{itemize} \item[] 
+\item[(a)] Fit a Poisson model with all five covariates on the log scale. Which covariates appear to have a significant effect on species counts?
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(}\DataTypeTok{list =} \KeywordTok{ls}\NormalTok{()); }\KeywordTok{setwd}\NormalTok{(}\StringTok{"G:}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{math}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{661"}\NormalTok{); }\KeywordTok{options}\NormalTok{(}\DataTypeTok{scipen=}\DecValTok{999}\NormalTok{); }\KeywordTok{library}\NormalTok{(MASS)}
+
+\NormalTok{plants<-}\KeywordTok{read.table}\NormalTok{(}\StringTok{"Galapagos.txt"}\NormalTok{,}\DataTypeTok{header=}\NormalTok{T); plant<-}\KeywordTok{read.table}\NormalTok{(}\StringTok{"Galapagos.txt"}\NormalTok{,}\DataTypeTok{header=}\NormalTok{T)}
+
+\NormalTok{plants<-plants[,}\KeywordTok{c}\NormalTok{(}\KeywordTok{which}\NormalTok{(}\KeywordTok{names}\NormalTok{(plants) }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"species"}\NormalTok{,}\StringTok{"area"}\NormalTok{, }\StringTok{"elevation"}\NormalTok{, }
+    \StringTok{"nearest"}\NormalTok{,  }\StringTok{"scruz"}\NormalTok{, }\StringTok{"adjacent"}\NormalTok{)))]}
+\NormalTok{plants[plants}\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{] <-}\StringTok{ }\NormalTok{.}\DecValTok{1}\NormalTok{;plants[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]<-}\KeywordTok{log}\NormalTok{(plants[,}\OperatorTok{-}\DecValTok{1}\NormalTok{])}
+\NormalTok{plants.pois<-}\KeywordTok{glm}\NormalTok{( species }\OperatorTok{~}\StringTok{ }\NormalTok{. , }\DataTypeTok{family=}\NormalTok{poisson, }\DataTypeTok{data=}\NormalTok{plants)}
+\KeywordTok{summary}\NormalTok{(plants.pois)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = species ~ ., family = poisson, data = plants)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -5.4488  -2.6730  -0.4513   2.5583   8.2983  
+## 
+## Coefficients:
+##              Estimate Std. Error z value             Pr(>|z|)    
+## (Intercept)  3.285301   0.284638  11.542 < 0.0000000000000002 ***
+## area         0.348726   0.018026  19.346 < 0.0000000000000002 ***
+## elevation    0.036338   0.056983   0.638              0.52368    
+## nearest     -0.041077   0.013789  -2.979              0.00289 ** 
+## scruz       -0.029178   0.010447  -2.793              0.00522 ** 
+## adjacent    -0.089277   0.006938 -12.867 < 0.0000000000000002 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 3510.73  on 29  degrees of freedom
+## Residual deviance:  359.52  on 24  degrees of freedom
+## AIC: 532.35
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+
+~
+
+\begin{itemize}   
+\item[] The covariates that appear to have a significant effect on species counts are {\tt area}, {\tt nearest}, {\tt scruz}, and {\tt adjacent}. The standard errors for some of these covariates may be too low and making them significant.
+\end{itemize}
+
+~
+
+\begin{itemize}   
+\item[i.] Evaluate the goodness-of-fit of this model.
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{-}\KeywordTok{pchisq}\NormalTok{( }\FloatTok{359.52}\NormalTok{  , }\DecValTok{24}\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+~
+
+\begin{itemize}   
+\item[] The model does not fit well.
+\end{itemize}
+
+~
+
+\begin{itemize}  
+\item[ii.] Examine the standardized residuals. Explain whether or not they suggest the presence of overdispersion? 
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\FloatTok{5.1}\NormalTok{,}\FloatTok{4.1}\NormalTok{,}\FloatTok{1.1}\NormalTok{, }\FloatTok{1.1}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(plants.pois}\OperatorTok{$}\NormalTok{linear.predictors, }\KeywordTok{rstandard}\NormalTok{(plants.pois), }\DataTypeTok{xlab=}\KeywordTok{expression}\NormalTok{(}\KeywordTok{hat}\NormalTok{(eta)), }
+     \DataTypeTok{ylab =} \StringTok{"Standardized residuals"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\OperatorTok{-}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd =}\DecValTok{2}\NormalTok{);}\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd =}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+~
+
+\begin{itemize}   
+\item[] The standardized residuals are distributed $r_i \sim N(0,1)$ so we expect about 95\% of the points to be within the bounds $\pm 2$ (the red lines). However, it is clear that many points are outside the two bounds which is suggesting the presence of overdispersion.
+\end{itemize}
+
+~
+
+\begin{itemize} 
+\item[iii.] Fit a negative binomial model with all five covariates on the log scale. Provide the point estimate and 95\% confidence interval for the dispersion parameter.  Which covariates appear to have a significant effect on species counts?
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(plants)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   species       area elevation    nearest      scruz   adjacent
+## 1      58  3.2224694  5.846439 -0.5108256 -0.5108256  0.6097656
+## 2      31  0.2151114  4.691348 -0.5108256  3.2695689  6.3497157
+## 3       3 -1.5606477  4.736198  1.0296194  4.0724397 -0.2484614
+## 4      25 -2.3025851  3.828641  0.6418539  3.8586222 -1.7147984
+## 5       2 -2.9957323  4.343805  0.6418539  0.6418539  6.8066302
+## 6      18 -1.0788097  4.779123  2.0794415  2.0794415  0.6097656
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plants.nb =}\StringTok{ }\KeywordTok{glm.nb}\NormalTok{(species }\OperatorTok{~}\StringTok{ }\NormalTok{., }\DataTypeTok{data=}\NormalTok{plants)}
+\KeywordTok{summary}\NormalTok{(plants.nb)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm.nb(formula = species ~ ., data = plants, init.theta = 2.944349644, 
+##     link = log)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.1255  -0.8586  -0.3636   0.5552   1.7166  
+## 
+## Coefficients:
+##             Estimate Std. Error z value     Pr(>|z|)    
+## (Intercept)  4.57865    1.26504   3.619     0.000295 ***
+## area         0.42207    0.07690   5.488 0.0000000406 ***
+## elevation   -0.23047    0.24810  -0.929     0.352911    
+## nearest     -0.09041    0.08749  -1.033     0.301422    
+## scruz       -0.02538    0.07254  -0.350     0.726470    
+## adjacent    -0.03752    0.03590  -1.045     0.295946    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Negative Binomial(2.9443) family taken to be 1)
+## 
+##     Null deviance: 149.432  on 29  degrees of freedom
+## Residual deviance:  32.801  on 24  degrees of freedom
+## AIC: 287.86
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  2.944 
+##           Std. Err.:  0.867 
+## 
+##  2 x log-likelihood:  -273.861
+\end{verbatim}
+
+~
+
+\begin{itemize}\item[]\begin{itemize}
+\item[]
+ Dispersion parameter: 
+ 
+ \hfil $\hat{\gamma} = \cfrac{1}{2.944} =  0.3396739$
+
+ 
+95\% CI: 
+
+ \hfil $\cfrac{1}{2.944 \pm 1.96(0.867)} =  (0.2153631, 0.8034194)$
+
+\end{itemize}
+
+\ 
+
+Now only the {\tt area} appears to have a significant effect on species counts.
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[iv.] Use a quasi-likelihood approach with an inflated quadratic function using all five covariates on the log scale. What is the estimated dispersion parameter?  Which covariates appear to have a significant effect on species counts?
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit.quasi =}\StringTok{ }\KeywordTok{glm}\NormalTok{(species }\OperatorTok{~}\StringTok{  }\NormalTok{area}\OperatorTok{+}\StringTok{ }\NormalTok{elevation }\OperatorTok{+}\StringTok{  }\NormalTok{nearest }\OperatorTok{+}\StringTok{ }\NormalTok{scruz }\OperatorTok{+}\StringTok{ }\NormalTok{adjacent ,  }\DataTypeTok{data=}\NormalTok{plants, }
+  \DataTypeTok{family=}\KeywordTok{quasi}\NormalTok{(}\DataTypeTok{link=}\StringTok{"log"}\NormalTok{, }\DataTypeTok{variance=}\StringTok{"mu^2"}\NormalTok{))}
+\KeywordTok{summary}\NormalTok{(fit.quasi)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = species ~ area + elevation + nearest + scruz + 
+##     adjacent, family = quasi(link = "log", variance = "mu^2"), 
+##     data = plants)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4747  -0.5119  -0.2215   0.3158   1.0927  
+## 
+## Coefficients:
+##             Estimate Std. Error t value  Pr(>|t|)    
+## (Intercept)  4.66229    1.51527   3.077   0.00517 ** 
+## area         0.43177    0.09153   4.717 0.0000853 ***
+## elevation   -0.24970    0.29665  -0.842   0.40825    
+## nearest     -0.08905    0.10560  -0.843   0.40740    
+## scruz       -0.02698    0.08600  -0.314   0.75649    
+## adjacent    -0.03670    0.04226  -0.869   0.39371    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for quasi family taken to be 0.5251162)
+## 
+##     Null deviance: 56.266  on 29  degrees of freedom
+## Residual deviance: 13.954  on 24  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 10
+\end{verbatim}
+
+~
+
+\begin{itemize}\item[] 
+
+Dispersion parameter \( \displaystyle \hat{\phi} = \cfrac{1}{N-p}  \sum_i \cfrac{\left(y_i-\hat{\mu_i}\right)^2}{\hat{\mu_i}}=  0.5251162 \)  
+
+\ 
+
+
+Still, only the area appears to have a significant effect on species counts.
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[(b)] Calculate the pairwise sample correlation between the covariates on the log scale and comment on whether or not multicollinearity may be an issue.
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggcorrplot,}\DataTypeTok{quietly=}\NormalTok{T);plant.cor<-}\KeywordTok{cor}\NormalTok{(plants[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]);}\KeywordTok{cor}\NormalTok{(plants[,}\OperatorTok{-}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                 area  elevation     nearest      scruz    adjacent
+## area      1.00000000 0.90371484  0.08639953 0.10300438  0.17941550
+## elevation 0.90371484 1.00000000  0.06384615 0.02798327  0.17068418
+## nearest   0.08639953 0.06384615  1.00000000 0.58361035 -0.09617790
+## scruz     0.10300438 0.02798327  0.58361035 1.00000000  0.01596249
+## adjacent  0.17941550 0.17068418 -0.09617790 0.01596249  1.00000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggcorrplot}\NormalTok{(plant.cor, }\DataTypeTok{type =} \StringTok{"lower"}\NormalTok{,}\DataTypeTok{lab =}\NormalTok{ T,   }\DataTypeTok{colors =} \KeywordTok{c}\NormalTok{(}\StringTok{"#6D9EC1"}\NormalTok{, }\StringTok{"white"}\NormalTok{, }\StringTok{"#E46726"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+~
+
+\begin{itemize}
+\item[] There is very high positive correlation between elevation and area, and high positive correlations between nearest and scruz. The high degree of multicollinearity among the predictor variables may be responsbile for larger estimated regression coefficients. It may also be responsible for inflated variability of the estimated coefficients; however with an overdispersed model this would seem less of a problem than the larger coefficients. A penalized regression or centering may be worthy of investigation here.
+\end{itemize}
+
+~
+
+\begin{itemize}
+\item[(c)] Perform stepwise selection for the Poisson model with all covariates on the log scale.
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(plant);plant<-}\KeywordTok{read.table}\NormalTok{(}\StringTok{"Galapagos.txt"}\NormalTok{,}\DataTypeTok{header=}\NormalTok{T);dat<-plant}
+\NormalTok{plant[plant}\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{] <-}\StringTok{ }\NormalTok{.}\DecValTok{1}\NormalTok{; plant<-plant[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]; plant[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]<-}\KeywordTok{log}\NormalTok{(plant[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]);}\KeywordTok{head}\NormalTok{(plant,}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   species endemics       area elevation    nearest      scruz   adjacent
+## 1      58 3.135494  3.2224694  5.846439 -0.5108256 -0.5108256  0.6097656
+## 2      31 3.044522  0.2151114  4.691348 -0.5108256  3.2695689  6.3497157
+## 3       3 1.098612 -1.5606477  4.736198  1.0296194  4.0724397 -0.2484614
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pois.null<-}\KeywordTok{glm}\NormalTok{(species }\OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{,}\DataTypeTok{family=}\NormalTok{poisson, }\DataTypeTok{data=}\NormalTok{plant)}
+\NormalTok{pois.sat<-}\KeywordTok{glm}\NormalTok{(species }\OperatorTok{~}\StringTok{ }\NormalTok{. , }\DataTypeTok{family=}\NormalTok{poisson, }\DataTypeTok{data=}\NormalTok{plant)}
+\KeywordTok{step}\NormalTok{(pois.null, }\DataTypeTok{scope=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{lower=}\NormalTok{pois.null,     }\DataTypeTok{upper=}\NormalTok{pois.sat), }\DataTypeTok{direction=}\StringTok{"both"}\NormalTok{,}\DataTypeTok{trace=}\DecValTok{0}\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:  glm(formula = species ~ endemics + adjacent + area + scruz, family = poisson, 
+##     data = plant)
+## 
+## Coefficients:
+## (Intercept)     endemics     adjacent         area        scruz  
+##     1.69960      0.70629     -0.04829      0.15404     -0.02564  
+## 
+## Degrees of Freedom: 29 Total (i.e. Null);  25 Residual
+## Null Deviance:       3511 
+## Residual Deviance: 239.6     AIC: 410.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{step.pois<-}\KeywordTok{step}\NormalTok{(pois.null, }\DataTypeTok{scope=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{lower=}\NormalTok{pois.null,  }\DataTypeTok{upper=}\NormalTok{pois.sat), }\DataTypeTok{direction=}\StringTok{"both"}\NormalTok{,}\DataTypeTok{trace=}\DecValTok{0}\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+~
+
+\begin{itemize} 
+\item[i.] Evaluate the goodness-of-fit of the selected Poisson model.
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{-}\KeywordTok{pchisq}\NormalTok{(}\FloatTok{239.6}\NormalTok{,}\DecValTok{25}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+~
+
+\begin{itemize} 
+\item[] It is a poor fitting model.
+\end{itemize}
+
+~
+
+\begin{itemize} 
+\item[ii.] Examine the standardized residuals and identify potential outliers.
+\end{itemize}
+
+~
+
+\begin{itemize} 
+\item[] Based on this model the outliers are {\tt DaphneMinor}, {\tt Gardner1}, {\tt Marchena}, and {\tt SantaFe}. They have standardized residuals outside the range (-3,3) and are identified as blue + on the plot. The orange lines are at $\pm 2$ to show observations that close to being outliers. The red lines are at $\pm 3$, the values outside this range would be considered outliers.
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a<-}\KeywordTok{which}\NormalTok{(}\KeywordTok{abs}\NormalTok{(}\KeywordTok{rstandard}\NormalTok{(step.pois))}\OperatorTok{<}\StringTok{ }\DecValTok{3}\NormalTok{);b<-}\KeywordTok{which}\NormalTok{(}\KeywordTok{abs}\NormalTok{(}\KeywordTok{rstandard}\NormalTok{(step.pois))}\OperatorTok{>}\StringTok{ }\DecValTok{3}\NormalTok{);dat[b,}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{5}\OperatorTok{:}\DecValTok{6}\NormalTok{)] }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         island species endemics   area scruz adjacent
+## 7  DaphneMinor      24        0   0.08  12.0     0.34
+## 13    Gardner1      58       17   0.57  93.1    58.27
+## 17    Marchena      51       23 129.49  85.9    59.56
+## 26     SantaFe      62       28  24.08  16.5     0.52
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\FloatTok{5.1}\NormalTok{,}\FloatTok{4.1}\NormalTok{,}\FloatTok{1.1}\NormalTok{, }\FloatTok{1.1}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(step.pois}\OperatorTok{$}\NormalTok{linear.predictors[a], }\KeywordTok{rstandard}\NormalTok{(step.pois)[a],}\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{5}\NormalTok{,}\DecValTok{12}\NormalTok{),}\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\NormalTok{.}\DecValTok{4}\NormalTok{,}\FloatTok{6.5}\NormalTok{))}
+\KeywordTok{points}\NormalTok{(step.pois}\OperatorTok{$}\NormalTok{linear.predictors[b], }\KeywordTok{rstandard}\NormalTok{(step.pois)[b],}\DataTypeTok{pch=}\StringTok{"+"}\NormalTok{,}\DataTypeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{"orange"}\NormalTok{,}\DataTypeTok{lwd =}\DecValTok{2}\NormalTok{);}\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\OperatorTok{-}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{"orange"}\NormalTok{,}\DataTypeTok{lwd =}\DecValTok{2}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{3}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd =}\DecValTok{2}\NormalTok{);}\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\OperatorTok{-}\DecValTok{3}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd =}\DecValTok{2}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(step.pois}\OperatorTok{$}\NormalTok{linear.predictors[b[}\OperatorTok{-}\DecValTok{3}\NormalTok{]]}\OperatorTok{+}\NormalTok{.}\DecValTok{15}\NormalTok{,  }\KeywordTok{rstandard}\NormalTok{(step.pois)[b[}\OperatorTok{-}\DecValTok{3}\NormalTok{]]}\OperatorTok{-}\NormalTok{.}\DecValTok{4}\NormalTok{, }
+     \DataTypeTok{labels=}\KeywordTok{paste0}\NormalTok{(b[}\OperatorTok{-}\DecValTok{3}\NormalTok{]), }\DataTypeTok{cex=} \FloatTok{0.7}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(step.pois}\OperatorTok{$}\NormalTok{linear.predictors[b[}\DecValTok{3}\NormalTok{]],  }\KeywordTok{rstandard}\NormalTok{(step.pois)[b[}\DecValTok{3}\NormalTok{]]}\OperatorTok{-}\NormalTok{.}\DecValTok{6}\NormalTok{, }
+     \DataTypeTok{labels=}\KeywordTok{paste0}\NormalTok{(b[}\DecValTok{3}\NormalTok{]), }\DataTypeTok{cex=} \FloatTok{0.7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+~
+
+\begin{itemize}
+\item[(d)] Perform stepwise selection for the negative binomial model with all covariates on the log scale.
+\end{itemize}
+
+~
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(plant,}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   species endemics       area elevation    nearest      scruz   adjacent
+## 1      58 3.135494  3.2224694  5.846439 -0.5108256 -0.5108256  0.6097656
+## 2      31 3.044522  0.2151114  4.691348 -0.5108256  3.2695689  6.3497157
+## 3       3 1.098612 -1.5606477  4.736198  1.0296194  4.0724397 -0.2484614
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nb.null<-}\KeywordTok{glm.nb}\NormalTok{(species }\OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{, }\DataTypeTok{data=}\NormalTok{plant)}
+\NormalTok{nb.sat<-}\KeywordTok{glm.nb}\NormalTok{(species }\OperatorTok{~}\StringTok{ }\NormalTok{., }\DataTypeTok{data=}\NormalTok{plant,}\DataTypeTok{maxit=}\DecValTok{100}\NormalTok{) ## Warning: glm.fit: algorithm did not converge}
+\KeywordTok{step}\NormalTok{(nb.null, }\DataTypeTok{scope=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{lower=}\NormalTok{nb.null,     }\DataTypeTok{upper=}\NormalTok{nb.sat), }\DataTypeTok{direction=}\StringTok{"both"}\NormalTok{,}\DataTypeTok{trace=}\DecValTok{0}\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:  glm.nb(formula = species ~ area, data = plant, init.theta = 2.533342913, 
+##     link = log)
+## 
+## Coefficients:
+## (Intercept)         area  
+##      3.2248       0.3499  
+## 
+## Degrees of Freedom: 29 Total (i.e. Null);  28 Residual
+## Null Deviance:       130.2 
+## Residual Deviance: 32.6  AIC: 283.8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{step.nb<-}\KeywordTok{step}\NormalTok{(nb.null, }\DataTypeTok{scope=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{lower=}\NormalTok{nb.null,    }\DataTypeTok{upper=}\NormalTok{nb.sat), }\DataTypeTok{direction=}\StringTok{"both"}\NormalTok{,}\DataTypeTok{trace=}\DecValTok{0}\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+~
+
+\begin{itemize} 
+\item[i.] Evaluate the goodness-of-fit of the selected negative binomial model.
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{-}\KeywordTok{pchisq}\NormalTok{(}\FloatTok{32.604}\NormalTok{  , }\DecValTok{28}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2506323
+\end{verbatim}
+
+~
+
+\begin{itemize} 
+\item[] It is an adequate fitting model.
+\end{itemize}
+
+~
+
+\begin{itemize} 
+\item[ii.] Examine the standardized residuals and identify potential outliers.
+\end{itemize}
+
+~
+
+\begin{itemize} 
+\item[ ] There are a few standardized residuals with absolute values near two, with one greater than two (-2.04). But aside from those cases on the edges, there are not any outliers in this model.
+\end{itemize}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\FloatTok{5.1}\NormalTok{,}\FloatTok{4.1}\NormalTok{,}\FloatTok{1.1}\NormalTok{, }\FloatTok{1.1}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(step.nb}\OperatorTok{$}\NormalTok{linear.predictors, }\KeywordTok{rstandard}\NormalTok{(step.nb),}\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\FloatTok{2.5}\NormalTok{,}\FloatTok{2.5}\NormalTok{),}\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\FloatTok{1.5}\NormalTok{,}\FloatTok{6.25}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd =}\DecValTok{2}\NormalTok{);}\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\OperatorTok{-}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd =}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+
+\end{document}

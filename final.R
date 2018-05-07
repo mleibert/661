@@ -1,9 +1,3 @@
-rm(list = ls())
-setwd("G:\\math\\661")
-options(scipen=999)
-require(ggplot2)
-library(MASS)
-library(VGAM)
 
 tempp<-data.frame( rep( "low" ,6 ) );names(tempp)<-"pollution"
 tempp$exposure<- c( rep( "no" ,3 ),  rep( "yes" ,3 ))
@@ -33,14 +27,14 @@ names(tempp)[ 4:ncol(tempp)]<-paste0("Y",1:4)
 
 cough<-rbind(cough,tempp)
  
-cough.ungrp = as.data.frame(lapply(dat, 
-	function(x,p) rep(x,p), dat$count))
 
 
-str(cough)
 cough$smoker<-relevel(as.factor(cough$smoker), ref="non")
 cough$exposure<-relevel(as.factor(cough$exposure), ref="no")
 cough$pollution<-relevel(as.factor(cough$pollution), ref="low")
+str(cough)
+
+cough.ungrp = as.data.frame(lapply(dat,function(x,p) rep(x,p), dat$count))
 
 
 
@@ -58,24 +52,21 @@ library(MASS)
 polr.fit = polr(as.factor(level) ~ smoker+ exposure+ pollution +
 	smoker*exposure + smoker*pollution+pollution*exposure , 
 	weights=count, data=dat)
+summary(polr.fit )
 df.residual(polr.fit )
-
-
-cough.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+ as.factor(exposure) +
-	as.factor( smoker) ,family=cumulative(parallel=T),data=cough)
 
 ## use this guy
 
-cough.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+  (exposure) +( smoker)+
+cough.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution + exposure + smoker +
 	smoker*exposure + smoker*pollution+pollution*exposure ,
 	  family=cumulative(parallel=T),data=cough)
+summary(cough.fit)
 
 1-pchisq(27.29641,24)
 
 
 main.fit<-vglm(cbind(Y1,Y2,Y3,Y4) ~ pollution+  (exposure) +( smoker),
 	family=cumulative(parallel=T),data=cough)
-
 
 
 
@@ -120,8 +111,8 @@ res<-hoslem.test(donner.glm$y,fitted(vglm.cough) )
 1-pchisq(29.9969, 29)
 1-pchisq( 4175.81, 6255 )
 
-#Use a likelihood ratio test to check the proportional
-#odds assumption in the model above.
+#Use a likelihood ratio test to check the proportional odds assumption in
+#the model above.
 #We can test the proportional odds assumption
 H0 : same slope for all cumulative logits vs. H1 : different slopes
 

@@ -1,0 +1,150 @@
+\documentclass[11pt]{article}
+\usepackage{subfigure}
+\usepackage{epsfig}
+\usepackage{rotating}
+\usepackage{verbatim}
+\usepackage{graphics, color}
+
+
+\setlength{\topmargin}{-.3in} \setlength{\textheight}{9in}
+\setlength{\oddsidemargin}{-.5in} \setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{7.2in} \setlength{\parindent}{0in}
+%\setlength{\parskip}{2ex}
+
+\def\thick#1{\hbox{\rlap{$#1$}\kern0.25pt\rlap{$#1$}\kern0.25pt$#1$}}
+\renewcommand{\baselinestretch}{1.2}
+
+
+\begin{document}
+
+
+\begin{center}
+{ \bf MATH-661: Generalized Linear Models \\
+Final Exam  \\
+Due Monday May 7, 2018 }
+\end{center}
+
+\thispagestyle{empty}
+
+
+\vspace*{5mm} \centerline{\bf INSTRUCTIONS} \vspace{5mm}
+
+No collaboration or discussion is permitted on the final exam.  If you need clarifications, you can contact me but you are not allowed to ask anyone else.  Please note that clarifications are limited to ambiguities in the wording of questions.  This exam is intended to demonstrate your grasp of the material, so no help will be provided. \\
+
+Please fill your name and sign the following honor pledge: \\
+{\bf I, \line(1,0){150}, pledge that I have not violated the Georgetown University honor code (see http://gervaseprograms.georgetown.edu/honor/).  The work I am submitting for this exam is completely my own. I have not communicated with anyone and have not allowed any other student to use or borrow portions of my work.  I understand that if I violate this honesty pledge, I will be reported for academic dishonesty to the Honor Council.} \\
+Signature : \line(1,0){200} \\
+
+\vspace*{1cm}
+
+\begin{itemize}
+\item Show the details of your work in order to get full credit for correct answers, and partial credit for incorrect answers if you are on the right track. \vspace{-2mm}
+\item Provide interpretations and conclusions in the context of the problem. \vspace{-2mm}
+\item Include the relevant R code and output for each question, when applicable. \vspace{-2mm}
+\item The exam must be e-mailed to {\tt mgt26@georgetown.edu} by 11:59 pm on Monday May 7, 2018.
+\end{itemize}
+
+\newpage
+\setcounter{page}{1}
+
+\subsection*{Part I:  Chronic respiratory disease [ 25 points ] }
+
+Table \ref{table:ex1} summarizes the data from an epidemiological study of chronic respiratory disease. Researchers collected information on subjects' exposure to general pollution (low or high), exposure to pollution in their jobs (yes or no), and their smoking status (current smoker, ex-smoker, non-smoker). The measured response is chronic respiratory disease status classified into four categories:
+\begin{itemize}
+\item 1 -- no symptoms \\ \vspace{-8mm}
+\item 2 -- cough or phlegm less than 3 months a year \\ \vspace{-8mm}
+\item 3 -- cough or phlegm more than 3 months a year \\ \vspace{-8mm}
+\item 4 -- cough and phlegm plus shortness of breath more than 3 months a year \\
+\end{itemize}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{cccrrrrr} \hline
+ &  &  &  \multicolumn{4}{c}{\bf Response level}  & \\ \cline{4-7}
+ Air pollution & Job exposure & Smoking status & 1 & 2 & 3 & 4 & Total \\ \hline
+Low & No & Non & 158 & 9 & 5 & 0 & 172\\
+  &  &  Ex & 167 & 19 & 5 & 3 & 194 \\ 
+  &  &  Current & 307 & 102 & 83 & 68 & 560 \\ \cline{3-8}
+  &  Yes & Non & 26 & 5 & 5 & 1 & 37 \\
+   &  & Ex & 38 & 12 & 4 & 4 & 58 \\
+   &  &  Current &  94 & 48 & 46  & 60 & 248 \\ \hline
+High & No & Non & 94 & 7 & 5 & 1 & 107 \\
+  &  &  Ex & 67 & 8 & 4 & 3 & 82 \\ 
+  & & Current &  184 & 65  & 33 & 36 & 318 \\ \cline{3-8}
+  & Yes & Non & 32 & 3 & 6 & 1 & 42 \\
+   &  & Ex & 39 & 11 & 4 & 2 & 56 \\ 
+   &  &  Current & 77 & 48 & 39 & 51 & 215 \\ \hline
+  \end{tabular}
+  \caption{Chronic respiratory disease data} \label{table:ex1}
+  \end{center}
+  \end{table}
+    
+  \vspace*{3mm}                                        
+
+\begin{enumerate}
+\item Fit a proportional odds cumulative logit model with pairwise interaction effects for all covariates and assess its goodness of fit. Use low air pollution, no job exposure and non-smoker as reference group.
+\item Use a likelihood ratio test to check the proportional odds assumption in the model above.
+\item Use a likelihood ratio test to determine whether to include or not the interaction terms in the proportional odds cumulative logit model.
+\item In the following questions, use the main effects cumulative logit proportional odds model:
+\begin{itemize}
+\item[(a)] Interpret each of the three intercepts.
+\item[(b)] Which variables appear to be associated with chronic respiratory disease?  Interpret the regression coefficients for the covariates with significant association. 
+\item[(c)] What are the estimated probabilities of falling in each of the different response categories for a current smoker with job exposure to pollution and high general air pollution exposure?  Show the details of your calculations manually.
+\item[(d)] For each covariate pattern, provide the predicted number of people falling in each of the response levels.
+\end{itemize}
+\end{enumerate}
+
+  \vspace*{7mm}                                        
+
+
+\subsection*{Part II:  Number of plant species in the Gal\'{a}pagos [ 25 points ] }
+
+The 30 islands in the Gal\'{a}pagos archipelago have long been studied by botanists, zoologists and biologists to learn about species survival and the process of natural selection in an almost experimental setting. The islands are essentially uninhabited by humans and all experience the same surrounding climate. Yet some species of birds, plants and mammals thrive on only a few or even just one of the islands. In addition, some islands have a wide variety of species, while others are not nearly as biodiverse. We are interested in investigating which variables may be related to the number of plant species in the archipelago islands. \\
+
+The data {\tt Galapagos.txt} posted on Canvas contain information on plant species on the Gal\'{a}pagos islands. The variables in the data correspond to
+\begin{itemize}
+\item {\tt island} -- name of island \\ \vspace{-8mm}
+\item {\tt species} -- island total observed plant species count \\ \vspace{-8mm}
+\item {\tt endemics} -- island endemic plant species count \\ \vspace{-8mm}
+\item {\tt area} -- island area (km$^2$) \\ \vspace{-8mm}
+\item {\tt elevation} -- island elevation (meters) \\ \vspace{-8mm}
+\item {\tt nearest} -- distance in km from the island to its nearest neighbor (adjacent island) \\ \vspace{-8mm}
+\item {\tt scruz} -- distance in km from the island to the largest island (Santa Cruz) \\ \vspace{-8mm}
+\item {\tt adjacent} -- area of the adjacent island \\
+\end{itemize}
+
+
+\begin{enumerate}
+\item {\bf Exploratory data analysis}
+\begin{itemize}
+\item[(a)] Provide a histogram and summary statistics for the observed counts of total plant species.  Discuss the distribution.  
+\item[(b)] Create plots of the logarithm of the observed counts of total plant species, $\log$({\tt species}), versus each of the five potential covariates: {\tt area, elevation, nearest, scruz, adjacent}. 
+\item[(c)] Repeat the previous question using the logarithm of each of the covariates. Which variables appear to be related to $\log$({\tt species})?\\
+{\bf Caution:} Always check for any zero value before using a logarithm transformation. A quick fix is to add a small non-zero number, e.g., consider $x+0.1$ instead of $x$.
+\end{itemize}
+
+\item[2.] {\bf Model building \& diagnostics} 
+\begin{itemize}
+\item[(a)] Fit a Poisson model with all five covariates on the log scale. Which covariates appear to have a significant effect on species counts?
+\begin{itemize}
+\item[i.] Evaluate the goodness-of-fit of this model.
+\item[ii.] Examine the standardized residuals. Explain whether or not they suggest the presence of overdispersion? 
+\item[iii.] Fit a negative binomial model with all five covariates on the log scale. Provide the point estimate and 95\% confidence interval for the dispersion parameter.  Which covariates appear to have a significant effect on species counts?
+\item[iv.] Use a quasi-likelihood approach with an inflated quadratic function using all five covariates on the log scale. What is the estimated dispersion parameter?  Which covariates appear to have a significant effect on species counts?
+\end{itemize}
+\item[(b)] Calculate the pairwise sample correlation between the covariates on the log scale and comment on whether or not multicollinearity may be an issue.
+\item[(c)] Perform stepwise selection for the Poisson model with all covariates on the log scale.
+\begin{itemize}
+\item[i.] Evaluate the goodness-of-fit of the selected Poisson model.
+\item[ii.] Examine the standardized residuals and identify potential outliers.
+\end{itemize}
+\item[(d)] Perform stepwise selection for the negative binomial model with all covariates on the log scale.
+\begin{itemize}
+\item[i.] Evaluate the goodness-of-fit of the selected negative binomial model.
+\item[ii.] Examine the standardized residuals and identify potential outliers.
+\end{itemize}
+\end{itemize}
+
+\end{enumerate}
+
+\end{document}
